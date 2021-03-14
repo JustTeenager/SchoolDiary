@@ -5,7 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "diary")
-public class DayItem {
+public class    DayItem {
 
     @NonNull
     @PrimaryKey

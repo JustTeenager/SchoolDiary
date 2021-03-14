@@ -15,8 +15,15 @@ public class DateManager {
     private final DateFormat dateFormat;
 
     public DateManager(){
-        dateFormat= new SimpleDateFormat("EEEE, dd MMMM", Locale.getDefault());
+        dateFormat= new SimpleDateFormat("EEEE, d MMMM", Locale.getDefault());
         calendar=Calendar.getInstance();
+    }
+
+    public ArrayList<DayItem> setupTwoWeeksFromCurrentCalendar(Calendar calendar){
+        this.calendar=calendar;
+        ArrayList<DayItem> items=setupTwoWeeksFromToday();
+        this.calendar=Calendar.getInstance();
+        return items;
     }
 
     public ArrayList<DayItem> setupTwoWeeksFromToday(){
@@ -44,15 +51,17 @@ public class DateManager {
                 loadTheWeeks(twoWeeks,-6);
             }break;
         }
+        calendar=Calendar.getInstance();
         return twoWeeks;
     }
 
     private void loadTheWeeks(ArrayList<DayItem> twoWeeks,int distance) {
         calendar.add(Calendar.DAY_OF_WEEK,distance);
-        for (int i=0;i<15;i++){
-            twoWeeks.add(new DayItem(dateFormat.format(calendar.getTime())));
+        for (int i=0;i<14;i++){
+            String formattedDate=dateFormat.format(calendar.getTime());
+            twoWeeks.add(new DayItem(formattedDate));
             calendar.add(Calendar.DAY_OF_WEEK,1);
-            Log.d("tut_twoWeeks", dateFormat.format(calendar.getTime()));
+            Log.d("tut_twoWeeks",formattedDate);
         }
         Log.d("tut_twoWeeksSize", String.valueOf(twoWeeks.size()));
     }

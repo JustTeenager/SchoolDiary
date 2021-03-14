@@ -26,20 +26,25 @@ public class MainActivity extends AppCompatActivity implements SubjectsFragment.
         setupNavigationMenu();
     }
 
+
+
     private void setupNavigationMenu() {
         binding.bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.page_subjects:{
+                        setTitle(R.string.subjects_page_title);
                        replaceFragment(SubjectsFragment.newInstance());
                     }
                     break;
                     case R.id.page_about_company:{
+                        setTitle(R.string.about_company_page_title);
                         replaceFragment(AboutCompanyFragment.newInstance());
                     }
                     break;
                     case R.id.page_diary:{
+                        setTitle(R.string.diary_page_title);
                         replaceFragment(DiaryFragment.newInstance());
                     }
                     break;
@@ -47,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements SubjectsFragment.
                 return true;
             }
         });
+        binding.bottomNavigation.setSelectedItemId(R.id.page_diary);
+        replaceFragment(DiaryFragment.newInstance());
     }
 
     private void replaceFragment(Fragment fragment){

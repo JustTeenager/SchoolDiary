@@ -61,7 +61,6 @@ public class SubjectsFragment extends Fragment {
         subjectsAdapter = new RecViewAdapter<>(RecViewAdapter.ViewType.SubjectHolder);
         binding.subjectsRecycler.setAdapter(subjectsAdapter);
         binding.subjectsRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-        getActivity().setTitle(R.string.subjects);
 
         fillAdapter();
         return binding.getRoot();

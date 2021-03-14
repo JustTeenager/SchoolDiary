@@ -2,8 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/calendar"
         app:showAsAction="always"
         android:title="@string/app_name"
-        android:icon="@android:drawable/alert_light_frame"
+        android:icon="@drawable/calendar"
         />
 </menu>

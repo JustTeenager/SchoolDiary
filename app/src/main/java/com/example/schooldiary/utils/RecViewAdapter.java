@@ -25,7 +25,12 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
         SubjectHolder
     }
 
+    public void setDataList(ArrayList<D> dataList) {
+        this.dataList = dataList;
+    }
+
     private ArrayList<D> dataList;
+
     private ViewType type;
 
     public RecViewAdapter(ViewType type){
@@ -55,6 +60,7 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
         switch (type) {
             case DayHolder:
                 ((DayHolder) holder).onBind(dataList.get(position));
+                break;
             case SubjectHolder:
                 ((SubjectHolder) holder).onBind(dataList.get(position));
                 break;
