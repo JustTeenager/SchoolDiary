@@ -4,7 +4,7 @@ import android.content.Context;
 
 import androidx.room.Room;
 
-import com.example.schooldiary.Model.DAOs.TableItemDao;
+import com.example.schooldiary.Model.DAOs.DaysDiaryDao;
 
 public class DBSingleton {
     private AllDatabases databases;
@@ -21,7 +21,7 @@ public class DBSingleton {
         return singleton;
     }
 
-    public TableItemDao getTableDao(){
+    public DaysDiaryDao getTableDao(){
         return databases.getTableItemDao();
     }
 
