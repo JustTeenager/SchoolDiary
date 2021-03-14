@@ -9,7 +9,7 @@
         android:id="@+id/page_subjects"
         android:enabled="true"
         android:icon="@drawable/ic_launcher_background"
-        android:title="@string/app_name"/>
+        android:title="@string/subjects"/>
 
     <item
         android:id="@+id/page_about_company"

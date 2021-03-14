@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SchoolDiary</string>
+    <string name="subjects">Предметы</string>
 </resources>
