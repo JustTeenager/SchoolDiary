@@ -33,6 +33,13 @@
                 android:layout_margin="@dimen/edit_text_margin" />
         </LinearLayout>
 
+        <EditText
+            android:id="@+id/teacher_edit_text"
+            android:layout_width="match_parent"
+            android:hint="@string/teacher"
+            android:layout_margin="@dimen/edit_text_margin"
+            android:layout_height="wrap_content"/>
+
         <RadioGroup
             android:layout_margin="@dimen/margin_check_box"
             android:layout_width="match_parent"
