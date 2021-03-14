@@ -11,4 +11,5 @@
     <string name="enter_cab">Введите кабинет</string>
     <string name="check_subject">Поставьте тип предмета</string>
     <string name="teacher">Учитель</string>
+    <string name="enter_teacher">Введите имя учителя</string>
 </resources>

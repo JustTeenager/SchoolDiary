@@ -1,6 +1,7 @@
 package com.example.schooldiary.view.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,18 @@ import androidx.fragment.app.Fragment;
 
 import com.example.schooldiary.R;
 import com.example.schooldiary.databinding.FragmentAddSubjectBinding;
+import com.example.schooldiary.model.SubjectItem;
+import com.example.schooldiary.model.Subjects;
+import com.example.schooldiary.utils.DBSingleton;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.schedulers.Schedulers;
 
 public class AddSubjectFragment  extends Fragment {
     private FragmentAddSubjectBinding binding;
+    private Subjects type;
 
     public static AddSubjectFragment newInstance() {
         Bundle args = new Bundle();
@@ -40,12 +50,24 @@ public class AddSubjectFragment  extends Fragment {
                 else if (binding.cabEditText.getText().toString().isEmpty()){
                     Toast.makeText(getActivity(),R.string.enter_cab, Toast.LENGTH_SHORT).show();
                 }
+                else if(binding.teacherEditText.getText().toString().isEmpty()){
+                    Toast.makeText(getActivity(),R.string.enter_teacher, Toast.LENGTH_SHORT).show();
+                }
                 else if (!binding.anotherCheck.isChecked() && !binding.literatureCheck.isChecked() && !binding.scienceCheck.isChecked()){
                     Toast.makeText(getActivity(),R.string.check_subject, Toast.LENGTH_SHORT).show();
                 }
                 else{
-                  //  SubjectItem subject = new SubjectItem()
-                   // DBSingleton.getInstance(getActivity()).getSubjectsDao().addSubject();
+
+                    Observable.create(new ObservableOnSubscribe<String>() {
+
+                        @Override
+                        public void subscribe(@NonNull ObservableEmitter<String> emitter) throws Exception {
+                            //SubjectItem subject = new SubjectItem(binding.nameEditText.getText().toString(),binding.cabEditText.getText().toString(),binding.teacherEditText.getText().toString(), type);
+                            //DBSingleton.getInstance(getActivity()).getSubjectsDao().addSubject(subject);
+                            emitter.onComplete();
+                        }
+                    }).subscribeOn(Schedulers.io()).subscribe();
+
                 }
             }
         });
@@ -57,6 +79,8 @@ public class AddSubjectFragment  extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
+                    type = Subjects.Another;
+                    Log.d("tut", type.name());
                     setCheckedFalse(binding.scienceCheck,binding.literatureCheck);
                 }
             }
@@ -65,6 +89,8 @@ public class AddSubjectFragment  extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
+                    type = Subjects.Science;
+                    Log.d("tut", type.name());
                     setCheckedFalse(binding.anotherCheck,binding.literatureCheck);
                 }
             }
@@ -73,6 +99,8 @@ public class AddSubjectFragment  extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
+                    type = Subjects.Literature;
+                    Log.d("tut", type.name());
                     setCheckedFalse(binding.scienceCheck, binding.anotherCheck);
                 }
             }
@@ -83,4 +111,5 @@ public class AddSubjectFragment  extends Fragment {
         firstCheck.setChecked(false);
         secondCheck.setChecked(false);
     }
+
 }

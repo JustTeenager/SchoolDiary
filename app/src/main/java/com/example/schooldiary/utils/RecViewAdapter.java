@@ -9,7 +9,9 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.schooldiary.databinding.ItemSubjectBinding;
 import com.example.schooldiary.model.DayItem;
+import com.example.schooldiary.model.SubjectItem;
 import com.example.schooldiary.model.TableItem;
 import com.example.schooldiary.R;
 import com.example.schooldiary.databinding.ItemDiaryElementBinding;
@@ -23,10 +25,16 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
         SubjectHolder
     }
 
-    private ArrayList<D> data;
+    private ArrayList<D> dataList;
     private ViewType type;
-    public RecViewAdapter(ArrayList<D> data,ViewType type){
-        this.data = data;
+
+    public RecViewAdapter(ViewType type){
+        this.type = type;
+        dataList = new ArrayList<>();
+    }
+
+    public RecViewAdapter(ArrayList<D> dataList, ViewType type){
+        this.dataList = dataList;
         this.type=type;
     }
 
@@ -37,7 +45,7 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
             case DayHolder:
                 return new DayHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_diary_element, parent, false));
             case SubjectHolder:
-                break;
+                return new SubjectHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.item_subject,parent,false));
         }
         return new BaseHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.item_diary_element,parent,false));
     }
@@ -46,33 +54,37 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (type) {
             case DayHolder:
-                ((DayHolder) holder).onBind(data.get(position));
+                ((DayHolder) holder).onBind(dataList.get(position));
             case SubjectHolder:
+                ((SubjectHolder) holder).onBind(dataList.get(position));
                 break;
         }
     }
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return dataList.size();
+    }
+
+    public void addDataToList(D data){
+        dataList.add(data);
     }
 
     public class BaseHolder extends RecyclerView.ViewHolder{
         protected ViewDataBinding binding;
+        protected D item;
 
         public BaseHolder(ViewDataBinding binding) {
             super(binding.getRoot());
             this.binding=binding;
         }
 
-        protected void onBind(D data) {
-
+        public void onBind(D data) {
         }
     }
 
     public class DayHolder extends BaseHolder{
 
-        private D item;
         private ArrayList<TableItem> tableItems;
 
         public DayHolder(ViewDataBinding binding) {
@@ -82,8 +94,20 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
         @Override
         public void onBind(D data) {
             Log.d("tutBind","DayHolderBinding");
-            item=data;
+            item = data;
             ((ItemDiaryElementBinding) binding).dateTitle.setText(((DayItem)item).getDay());
+        }
+    }
+
+    public class SubjectHolder extends BaseHolder{
+        public SubjectHolder(ViewDataBinding binding) {
+            super(binding);
+        }
+
+        @Override
+        public void onBind(D data) {
+            SubjectItem subject = (SubjectItem) data;
+            ((ItemSubjectBinding) binding).setNameSubject(subject.getName());
         }
     }
 

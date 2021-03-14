@@ -1,14 +1,32 @@
 package com.example.schooldiary.model;
 
 import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
+
+import com.example.schooldiary.utils.TypeConverterEnum;
+
 
 @Entity(tableName = "Subjects")
 public class SubjectItem {
+
+    @PrimaryKey
     private String name;
-    private String notes;
     private String teacher;
     private String cab;
+
+    @TypeConverters({TypeConverterEnum.class})
     private Subjects type;
+
+    public SubjectItem(){}
+
+    public SubjectItem(String name, String cab,String teacher, Subjects type){
+        this.name = name;
+        this.cab = cab;
+        this.type = type;
+        this.teacher = teacher;
+    }
 
     public String getName() {
         return name;
@@ -16,14 +34,6 @@ public class SubjectItem {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
     }
 
     public String getTeacher() {

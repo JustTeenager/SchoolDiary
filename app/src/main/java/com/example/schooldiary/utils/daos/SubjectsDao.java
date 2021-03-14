@@ -20,8 +20,8 @@ public interface SubjectsDao {
     Flowable<ArrayList<SubjectItem>> getSubjects();
 
     @Insert
-    void addSubject(Subject subject);
+    void addSubject(SubjectItem subject);
 
     @Delete
-    void deleteSubject(Subject subject);
+    void deleteSubject(SubjectItem subject);
 }
