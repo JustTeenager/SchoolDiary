@@ -2,4 +2,6 @@
 <resources>
     <dimen name="title_table_dimenison">12dp</dimen>
     <dimen name="diary_title_size">25sp</dimen>
+    <dimen name="edit_text_margin">8dp</dimen>
+    <dimen name="margin_check_box">16dp</dimen>
 </resources>

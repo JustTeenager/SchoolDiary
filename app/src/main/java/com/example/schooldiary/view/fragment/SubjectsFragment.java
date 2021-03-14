@@ -1,7 +1,7 @@
-package com.example.schooldiary.View;
+package com.example.schooldiary.view.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +19,7 @@ import com.example.schooldiary.databinding.FragmentSubjectsBinding;
 
 public class SubjectsFragment extends Fragment {
     private FragmentSubjectsBinding binding;
+    private Callback callback;
 
     public static SubjectsFragment newInstance() {
         Bundle args = new Bundle();
@@ -34,11 +35,24 @@ public class SubjectsFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        callback = (Callback) context;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_subjects,container,false);
+        getActivity().setTitle(R.string.subjects);
         return binding.getRoot();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        callback = null;
     }
 
     @Override
@@ -51,14 +65,16 @@ public class SubjectsFragment extends Fragment {
         switch (item.getItemId()){
             case R.id.plus_subject:{
                 addSubject();
-                return true;
-            }
-            default: return super.onOptionsItemSelected(item);
+            }break;
         }
+        return true;
     }
 
     private void addSubject() {
-        Log.d("tut_subject", "add subject");
+        callback.addFragment(AddSubjectFragment.newInstance());
+    }
 
+    public interface Callback{
+        void addFragment(Fragment fragment);
     }
 }

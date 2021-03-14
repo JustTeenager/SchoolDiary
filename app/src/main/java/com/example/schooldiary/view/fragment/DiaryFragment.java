@@ -1,8 +1,7 @@
-package com.example.schooldiary.View;
+package com.example.schooldiary.view.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -11,11 +10,10 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.schooldiary.Model.DateManager;
-import com.example.schooldiary.Model.DayItem;
-import com.example.schooldiary.Model.RecViewAdapter;
+import com.example.schooldiary.utils.DateManager;
+import com.example.schooldiary.model.DayItem;
+import com.example.schooldiary.utils.RecViewAdapter;
 import com.example.schooldiary.R;
 import com.example.schooldiary.databinding.FragmentDiaryBinding;
 

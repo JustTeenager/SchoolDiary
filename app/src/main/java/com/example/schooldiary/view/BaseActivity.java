@@ -1,4 +1,4 @@
-package com.example.schooldiary.View;
+package com.example.schooldiary.view;
 
 import android.os.Bundle;
 

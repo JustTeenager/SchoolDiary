@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">SchoolDiary</string>
     <string name="subjects">Предметы</string>
+    <string name="lesson">Урок</string>
+    <string name="cab">Кабинет</string>
+    <string name="science_text">Естественные</string>
+    <string name="literature_text">Гуманитарные</string>
+    <string name="another_text">Прочие</string>
+    <string name="add_subject">Добавить предмет</string>
+    <string name="enter_lesson">Введите название предмета</string>
+    <string name="enter_cab">Введите кабинет</string>
+    <string name="check_subject">Поставьте тип предмета</string>
 </resources>

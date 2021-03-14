@@ -1,8 +1,7 @@
-package com.example.schooldiary.Model;
+package com.example.schooldiary.utils;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -10,11 +9,12 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.schooldiary.model.DayItem;
+import com.example.schooldiary.model.TableItem;
 import com.example.schooldiary.R;
 import com.example.schooldiary.databinding.ItemDiaryElementBinding;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

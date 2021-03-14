@@ -1,4 +1,4 @@
-package com.example.schooldiary.View;
+package com.example.schooldiary.view.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

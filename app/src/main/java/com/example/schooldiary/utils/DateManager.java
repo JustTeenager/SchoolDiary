@@ -1,6 +1,8 @@
-package com.example.schooldiary.Model;
+package com.example.schooldiary.utils;
 
 import android.util.Log;
+
+import com.example.schooldiary.model.DayItem;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
