@@ -9,13 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class DiaryFragment extends Fragment {
+public class AboutCompanyFragment  extends Fragment {
 
-    public static DiaryFragment newInstance() {
-        
+
+    public static AboutCompanyFragment newInstance() {
+
         Bundle args = new Bundle();
-        
-        DiaryFragment fragment = new DiaryFragment();
+
+        AboutCompanyFragment fragment = new AboutCompanyFragment();
         fragment.setArguments(args);
         return fragment;
     }

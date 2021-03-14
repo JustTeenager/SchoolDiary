@@ -7,6 +7,6 @@ public class SubjectItem {
     private String name;
     private String notes;
     private String cab;
-    private Type type;
+    private Subjects type;
     //сюда же добавим учителя
 }
