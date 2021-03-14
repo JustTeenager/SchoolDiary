@@ -8,6 +8,7 @@ import androidx.room.Query;
 import com.example.schooldiary.model.SubjectItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.security.auth.Subject;
 
@@ -17,7 +18,7 @@ import io.reactivex.Flowable;
 public interface SubjectsDao {
 
     @Query("SELECT * FROM Subjects")
-    Flowable<ArrayList<SubjectItem>> getSubjects();
+    Flowable<List<SubjectItem>> getSubjects();
 
     @Insert
     void addSubject(SubjectItem subject);

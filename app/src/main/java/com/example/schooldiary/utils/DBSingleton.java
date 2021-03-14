@@ -8,7 +8,7 @@ import com.example.schooldiary.utils.daos.SubjectsDao;
 import com.example.schooldiary.utils.daos.DaysDiaryDao;
 
 public class DBSingleton {
-    private AllDatabases databases;
+    private static AllDatabases databases;
     private static DBSingleton singleton;
 
     private DBSingleton(Context context){

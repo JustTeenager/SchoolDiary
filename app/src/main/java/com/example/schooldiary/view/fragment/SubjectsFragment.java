@@ -2,6 +2,7 @@ package com.example.schooldiary.view.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +21,8 @@ import com.example.schooldiary.databinding.FragmentSubjectsBinding;
 import com.example.schooldiary.model.SubjectItem;
 import com.example.schooldiary.utils.DBSingleton;
 import com.example.schooldiary.utils.RecViewAdapter;
+
+import java.util.Arrays;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -72,7 +75,9 @@ public class SubjectsFragment extends Fragment {
         DisposableSubscriber<SubjectItem> subscriber = new DisposableSubscriber<SubjectItem>() {
             @Override
             public void onNext(SubjectItem subjectItem) {
+                Log.d("tut", subjectItem.getName());
                 subjectsAdapter.addDataToList(subjectItem);
+                subjectsAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -82,6 +87,7 @@ public class SubjectsFragment extends Fragment {
 
             @Override
             public void onComplete() {
+                Log.d("tut_list", subjectsAdapter.getDataList().toString());
                 subjectsAdapter.notifyDataSetChanged();
             }
         };

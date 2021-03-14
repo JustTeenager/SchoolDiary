@@ -62,8 +62,9 @@ public class AddSubjectFragment  extends Fragment {
 
                         @Override
                         public void subscribe(@NonNull ObservableEmitter<String> emitter) throws Exception {
-                            //SubjectItem subject = new SubjectItem(binding.nameEditText.getText().toString(),binding.cabEditText.getText().toString(),binding.teacherEditText.getText().toString(), type);
-                            //DBSingleton.getInstance(getActivity()).getSubjectsDao().addSubject(subject);
+                            Log.d("tut","добавлено");
+                            SubjectItem subject = new SubjectItem(binding.nameEditText.getText().toString(),binding.cabEditText.getText().toString(),binding.teacherEditText.getText().toString(), type);
+                            DBSingleton.getInstance(getActivity()).getSubjectsDao().addSubject(subject);
                             emitter.onComplete();
                         }
                     }).subscribeOn(Schedulers.io()).subscribe();

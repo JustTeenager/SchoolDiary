@@ -6,6 +6,7 @@ import androidx.room.Query;
 import com.example.schooldiary.model.DayItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.Flowable;
 
@@ -13,5 +14,5 @@ import io.reactivex.Flowable;
 public interface DaysDiaryDao {
 
     @Query("SELECT * FROM diary")
-    Flowable<ArrayList<DayItem>> getDiary();
+    Flowable<List<DayItem>> getDiary();
 }

@@ -70,6 +70,11 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
         dataList.add(data);
     }
 
+
+    public ArrayList<D> getDataList() {
+        return dataList;
+    }
+
     public class BaseHolder extends RecyclerView.ViewHolder{
         protected ViewDataBinding binding;
         protected D item;

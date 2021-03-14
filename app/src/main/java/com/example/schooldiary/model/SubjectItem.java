@@ -1,5 +1,6 @@
 package com.example.schooldiary.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverter;
@@ -11,6 +12,7 @@ import com.example.schooldiary.utils.TypeConverterEnum;
 @Entity(tableName = "Subjects")
 public class SubjectItem {
 
+    @NonNull
     @PrimaryKey
     private String name;
     private String teacher;
