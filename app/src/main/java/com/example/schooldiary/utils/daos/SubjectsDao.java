@@ -12,12 +12,13 @@ import com.example.schooldiary.model.SubjectItem;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.Maybe;
 
 @Dao
 public interface SubjectsDao {
 
     @Query("SELECT * FROM Subjects")
-    Flowable<List<SubjectItem>> getSubjects();
+    Maybe<List<SubjectItem>> getSubjects();
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void addSubject(SubjectItem subject);

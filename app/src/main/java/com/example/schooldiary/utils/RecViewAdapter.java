@@ -8,9 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,6 +26,7 @@ import com.example.schooldiary.viewmodel.SubjectViewModel;
 
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
@@ -72,7 +71,7 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
             case SubjectHolder:
 
                 ((SubjectHolder) holder).onBind(dataList.get(position));
-                helper.bind(((SubjectHolder) holder).getSwipeReveal(), UUID.randomUUID().toString());
+                helper.bind(((SubjectHolder) holder).getSwipeReveal(), ((SubjectItem)dataList.get(position)).getIdString());
                 break;
         }
     }
@@ -84,6 +83,7 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public void addDataToList(D data){
         dataList.add(data);
+        Log.d("tut", data.toString());
     }
 
 
@@ -127,6 +127,8 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
+
+
     public class SubjectHolder extends BaseHolder{
         private SubjectItem subject;
         private ItemSubjectBinding binding;
@@ -136,13 +138,16 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
             this.binding.deleteSubject.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    int position = dataList.indexOf(subject);
                     Observable.create((ObservableOnSubscribe<String>) emitter -> {
                         DBSingleton.getInstance(SubjectHolder.this.binding.getRoot().getContext()).getSubjectsDao().deleteSubject(subject);
-                        Log.d("tut_position", String.valueOf(dataList.indexOf(subject)));
-                        dataList.remove(subject);
                         emitter.onComplete();
                     }).subscribeOn(Schedulers.io()).subscribe();
-                    notifyDataSetChanged();
+
+                    if (position > -1 && position < dataList.size()) {
+                        dataList.remove(position);
+                        notifyItemRemoved(position);
+                    }
                 }
             });
             this.binding.constrainLayout.setOnClickListener(new View.OnClickListener() {
@@ -156,6 +161,8 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
         @Override
         public void onBind(D data) {
             subject = (SubjectItem) data;
+            Log.d("tut_onBind", subject.getName());
+            binding.nameSubject.setText(subject.getName());
             binding.setNameSubject(subject.getName());
         }
 

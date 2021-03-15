@@ -23,10 +23,15 @@ import com.example.schooldiary.utils.DBSingleton;
 import com.example.schooldiary.utils.RecViewAdapter;
 import com.example.schooldiary.view.Callback;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.MaybeObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableMaybeObserver;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subscribers.DisposableSubscriber;
 
@@ -34,6 +39,7 @@ public class SubjectsFragment extends Fragment {
     private FragmentSubjectsBinding binding;
     private Callback callback;
     private RecViewAdapter<SubjectItem> subjectsAdapter;
+
 
     public static SubjectsFragment newInstance() {
         Bundle args = new Bundle();
@@ -62,36 +68,40 @@ public class SubjectsFragment extends Fragment {
         subjectsAdapter = new RecViewAdapter<>(RecViewAdapter.ViewType.SubjectHolder);
         binding.subjectsRecycler.setAdapter(subjectsAdapter);
         binding.subjectsRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        fillAdapter();
         return binding.getRoot();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        fillAdapter();
+    }
+
     private void fillAdapter(){
-        Flowable<SubjectItem> flowable = DBSingleton.getInstance(getActivity())
-                .getSubjectsDao().getSubjects().subscribeOn(Schedulers.io())
-                .flatMapIterable(subjectItems ->
-                    subjectItems).observeOn(AndroidSchedulers.mainThread());
-        DisposableSubscriber<SubjectItem> subscriber = new DisposableSubscriber<SubjectItem>() {
-            @Override
-            public void onNext(SubjectItem subjectItem) {
-                subjectsAdapter.addDataToList(subjectItem);
-                subjectsAdapter.notifyItemChanged(subjectsAdapter.getItemCount());
-            }
 
-            @Override
-            public void onError(Throwable t) {
+        DBSingleton.getInstance(getActivity()).getSubjectsDao().getSubjects().subscribeOn(Schedulers.io()).subscribe(
+                new DisposableMaybeObserver<List<SubjectItem>>() {
+                    @Override
+                    public void onSuccess(@NonNull List<SubjectItem> subjectItems) {
+                        for (SubjectItem subjectItem:subjectItems){
+                            subjectsAdapter.addDataToList(subjectItem);
+                            getActivity().runOnUiThread(() -> subjectsAdapter.notifyItemChanged(subjectsAdapter.getItemCount()));
+                        }
+                       // getActivity().runOnUiThread(() -> subjectsAdapter.notifyDataSetChanged());
 
-            }
+                    }
 
-            @Override
-            public void onComplete() {
-                Log.d("tut_list", subjectsAdapter.getDataList().toString());
-                subjectsAdapter.notifyDataSetChanged();
-            }
-        };
-        flowable.subscribe(subscriber);
+                    @Override
+                    public void onError(@io.reactivex.annotations.NonNull Throwable e) {
 
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                }
+        );
     }
 
     @Override
