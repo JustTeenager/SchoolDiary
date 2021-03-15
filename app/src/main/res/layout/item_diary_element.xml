@@ -4,20 +4,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
-        android:background="@android:color/darker_gray"
-        android:padding="@dimen/diary_item_paddings"
+        android:background="@color/light_grey"
         android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/date_title"
-            android:textSize="@dimen/diary_title_size"
-            android:textColor="@android:color/primary_text_dark_nodisable"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textColor="@color/dark_grey"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/table_rec_view"
-            android:padding="8dp"
             android:layout_marginTop="@dimen/title_table_dimenison"
             android:background="@android:color/white"
             android:layout_width="match_parent"

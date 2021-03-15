@@ -12,8 +12,8 @@ import com.example.schooldiary.utils.TypeConverterEnum;
 @Entity(tableName = "Subjects")
 public class SubjectItem {
 
-    @NonNull
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    private int id;
     private String name;
     private String teacher;
     private String cab;
@@ -60,6 +60,18 @@ public class SubjectItem {
 
     public void setType(Subjects type) {
         this.type = type;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getIdString(){
+        return String.valueOf(id);
     }
 
     //сюда же добавим учителя

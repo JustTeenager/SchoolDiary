@@ -3,14 +3,13 @@ package com.example.schooldiary.utils.daos;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.schooldiary.model.SubjectItem;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.security.auth.Subject;
 
 import io.reactivex.Flowable;
 
@@ -20,9 +19,12 @@ public interface SubjectsDao {
     @Query("SELECT * FROM Subjects")
     Flowable<List<SubjectItem>> getSubjects();
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void addSubject(SubjectItem subject);
 
     @Delete
     void deleteSubject(SubjectItem subject);
+
+    @Update
+    void updateSubject(SubjectItem subjectItem);
 }

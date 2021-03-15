@@ -10,7 +10,7 @@ import com.example.schooldiary.utils.daos.SubjectsDao;
 import com.example.schooldiary.utils.daos.DaysDiaryDao;
 import com.example.schooldiary.model.TableItem;
 
-@Database(version = 1,entities = {TableItem.class, DayItem.class, SubjectItem.class})
+@Database(version = 2,entities = {TableItem.class, DayItem.class, SubjectItem.class})
 public abstract class AllDatabases  extends RoomDatabase {
     public abstract SubjectsDao getSubjectsDao();
     public abstract DaysDiaryDao getTableItemDao();

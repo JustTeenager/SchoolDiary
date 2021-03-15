@@ -2,7 +2,9 @@
 <resources>
     <dimen name="title_table_dimenison">12dp</dimen>
     <dimen name="diary_title_size">20sp</dimen>
-    <dimen name="edit_text_margin">8dp</dimen>
-    <dimen name="margin_check_box">16dp</dimen>
-    <dimen name="diary_item_paddings">4dp</dimen>
+    <dimen name="text_margin">8dp</dimen>
+    <dimen name="margin_top">16dp</dimen>
+    <dimen name="size_keyboard_right">25dp</dimen>
+    <dimen name="margin_right">4dp</dimen>
+    <dimen name="height_view">1dp</dimen>
 </resources>

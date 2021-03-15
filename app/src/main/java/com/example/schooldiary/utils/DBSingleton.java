@@ -12,7 +12,7 @@ public class DBSingleton {
     private static DBSingleton singleton;
 
     private DBSingleton(Context context){
-        databases = Room.databaseBuilder(context,AllDatabases.class,"database").build();
+        databases = Room.databaseBuilder(context,AllDatabases.class,"database").fallbackToDestructiveMigration().build();
     }
 
     public static DBSingleton getInstance(Context context) {

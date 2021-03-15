@@ -21,6 +21,7 @@ import com.example.schooldiary.databinding.FragmentSubjectsBinding;
 import com.example.schooldiary.model.SubjectItem;
 import com.example.schooldiary.utils.DBSingleton;
 import com.example.schooldiary.utils.RecViewAdapter;
+import com.example.schooldiary.view.Callback;
 
 import java.util.Arrays;
 
@@ -74,9 +75,8 @@ public class SubjectsFragment extends Fragment {
         DisposableSubscriber<SubjectItem> subscriber = new DisposableSubscriber<SubjectItem>() {
             @Override
             public void onNext(SubjectItem subjectItem) {
-                Log.d("tut", subjectItem.getName());
                 subjectsAdapter.addDataToList(subjectItem);
-                subjectsAdapter.notifyDataSetChanged();
+                subjectsAdapter.notifyItemChanged(subjectsAdapter.getItemCount());
             }
 
             @Override
@@ -116,10 +116,7 @@ public class SubjectsFragment extends Fragment {
     }
 
     private void addSubject() {
-        callback.addFragment(AddSubjectFragment.newInstance());
+        callback.replaceFragmentWithBackStack(AddSubjectFragment.newInstance());
     }
 
-    public interface Callback{
-        void addFragment(Fragment fragment);
-    }
 }

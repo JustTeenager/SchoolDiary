@@ -10,13 +10,15 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.example.schooldiary.R;
+import com.example.schooldiary.utils.DBSingleton;
+import com.example.schooldiary.utils.RecViewAdapter;
 import com.example.schooldiary.view.fragment.AboutCompanyFragment;
 import com.example.schooldiary.view.fragment.DiaryFragment;
 import com.example.schooldiary.view.fragment.SubjectsFragment;
 import com.example.schooldiary.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity implements SubjectsFragment.Callback {
+public class MainActivity extends AppCompatActivity implements Callback {
     private ActivityMainBinding binding;
 
     @Override
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements SubjectsFragment.
     }
 
     @Override
-    public void addFragment(Fragment fragment) {
+    public void replaceFragmentWithBackStack(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.container,fragment).addToBackStack(null).commit();
     }
 }
