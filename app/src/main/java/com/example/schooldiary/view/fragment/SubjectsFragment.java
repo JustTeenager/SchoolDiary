@@ -77,6 +77,12 @@ public class SubjectsFragment extends Fragment {
         fillAdapter();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        subjectsAdapter.clearList();
+    }
+
     private void fillAdapter(){
 
         DBSingleton.getInstance(getActivity()).getSubjectsDao().getSubjects().subscribeOn(Schedulers.io()).subscribe(

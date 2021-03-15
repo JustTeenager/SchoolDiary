@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.schooldiary.R;
 import com.example.schooldiary.utils.DBSingleton;
@@ -64,7 +65,8 @@ public class MainActivity extends AppCompatActivity implements Callback {
 
     @Override
     public void replaceFragmentWithBackStack(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.container,fragment).addToBackStack(null).commit();
+
+        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_right_to_left,R.anim.exit_right_to_left, R.anim.enter_left_to_right,R.anim.exit_left_to_right).replace(R.id.container,fragment).addToBackStack(null).commit();
     }
 }
 

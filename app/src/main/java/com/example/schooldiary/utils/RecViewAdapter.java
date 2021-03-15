@@ -86,6 +86,10 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
         Log.d("tut", data.toString());
     }
 
+    public void clearList(){
+        dataList.clear();
+    }
+
 
     public ArrayList<D> getDataList() {
         return dataList;
