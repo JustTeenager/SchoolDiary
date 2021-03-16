@@ -10,11 +10,13 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.example.schooldiary.databinding.ItemSubjectBinding;
+import com.example.schooldiary.model.DayAndTableItems;
 import com.example.schooldiary.model.DayItem;
 import com.example.schooldiary.model.SubjectItem;
 import com.example.schooldiary.model.TableItem;
@@ -29,6 +31,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.schedulers.Schedulers;
@@ -44,12 +47,6 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.type = type;
         dataList = new ArrayList<>();
     }
-
-    public RecViewAdapter(ArrayList<D> dataList, ViewType type){
-        this.dataList = dataList;
-        this.type=type;
-    }
-
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -59,6 +56,8 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
                 return new DayHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_diary_element, parent, false));
             case SubjectHolder:
                 return new SubjectHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.item_subject,parent,false));
+            case TableHolder:
+                //return new
         }
         return new BaseHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.item_diary_element,parent,false));
     }
@@ -84,7 +83,6 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public void addDataToList(D data){
         dataList.add(data);
-        Log.d("tut", data.toString());
     }
 
     public void clearList(){
@@ -101,7 +99,6 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public class BaseHolder extends RecyclerView.ViewHolder {
-        protected D item;
 
         public BaseHolder(ViewDataBinding binding) {
             super(binding.getRoot());
@@ -117,18 +114,24 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public class DayHolder extends BaseHolder{
 
-        private ArrayList<TableItem> tableItems;
         private ItemDiaryElementBinding binding;
+        private DayAndTableItems item;
 
         public DayHolder(ViewDataBinding binding) {
             super(binding);
             this.binding = (ItemDiaryElementBinding) binding;
+            this.binding.tableRecView.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext()));
         }
 
         @Override
         public void onBind(D data) {
-            item = data;
-            binding.dateTitle.setText(((DayItem)item).getDay());
+            item = (DayAndTableItems) data;
+            binding.dateTitle.setText((item).getDayItem().getDate_title());
+            binding.addTableButton.setOnClickListener(v -> {
+                //TODO Добавление нового урока в расписание
+
+            });
+            RecViewAdapter<TableItem> recViewAdapter=new RecViewAdapter<>(ViewType.TableHolder);
 
         }
 
@@ -185,12 +188,24 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
         public SwipeRevealLayout getSwipeReveal(){
             return  binding.swipeReveal;
         }
+    }
 
+    public class TableHolder extends BaseHolder{
+        public TableHolder(ViewDataBinding binding) {
+            super(binding);
+        }
+
+        @Override
+        public void onBind(D data) {
+            super.onBind(data);
+
+        }
     }
 
     public enum ViewType{
         DayHolder,
-        SubjectHolder
+        SubjectHolder,
+        TableHolder
     }
 
 }

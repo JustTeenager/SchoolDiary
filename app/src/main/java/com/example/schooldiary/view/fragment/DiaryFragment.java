@@ -1,38 +1,44 @@
 package com.example.schooldiary.view.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CalendarView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.example.schooldiary.model.DayAndTableItems;
 import com.example.schooldiary.utils.DateManager;
-import com.example.schooldiary.model.DayItem;
 import com.example.schooldiary.utils.RecViewAdapter;
 import com.example.schooldiary.R;
 import com.example.schooldiary.databinding.FragmentDiaryBinding;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import io.reactivex.Flowable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.subscribers.DisposableSubscriber;
+
 public class DiaryFragment extends Fragment {
 
 
     private FragmentDiaryBinding diaryBinding;
-    private RecViewAdapter<DayItem> adapter;
-    private DateManager dateManager=new DateManager();
+    private RecViewAdapter<DayAndTableItems> adapter;
+    private DateManager dateManager;
     private boolean isCalendarOpened=false;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dateManager=new DateManager(getContext());
         setHasOptionsMenu(true);
     }
 
@@ -44,11 +50,39 @@ public class DiaryFragment extends Fragment {
 
         diaryBinding.datePicker.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
             Calendar calendar=new GregorianCalendar(year,month,dayOfMonth);
-            adapter.setDataList(dateManager.setupTwoWeeksFromCurrentCalendar(calendar));
-            adapter.notifyDataSetChanged();
+            Flowable<DayAndTableItems> dayItemFlowable=dateManager.setupTwoWeeksFromCurrentCalendar(calendar);
+            addAdapterChangingObserver(dayItemFlowable);
         });
 
         return diaryBinding.getRoot();
+    }
+
+
+    private void addAdapterChangingObserver(Flowable<DayAndTableItems> itemsFlowable){
+        itemsFlowable.observeOn(AndroidSchedulers.mainThread()).subscribe(new DisposableSubscriber<DayAndTableItems>() {
+
+            @Override
+            protected void onStart() {
+                super.onStart();
+                adapter.getDataList().clear();
+            }
+
+            @Override
+            public void onNext(DayAndTableItems dayTableItem) {
+                Log.d("tut","Лог онНекста: "+dayTableItem.getDayItem().getDate_title());
+                adapter.addDataToList(dayTableItem);
+                adapter.notifyItemChanged(adapter.getItemCount()-1);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+
+            }
+
+            @Override
+            public void onComplete() {
+            }
+        });
     }
 
     @Override
@@ -84,7 +118,10 @@ public class DiaryFragment extends Fragment {
 
     private void setupRecyclerView(){
         diaryBinding.diaryRecView.setLayoutManager(new LinearLayoutManager(getContext()));
-       adapter=new RecViewAdapter<>(dateManager.setupTwoWeeksFromToday(),RecViewAdapter.ViewType.DayHolder);
+
+        Flowable<DayAndTableItems> dayItemFlowable= dateManager.setupTwoWeeksFromToday().observeOn(AndroidSchedulers.mainThread());
+        adapter=new RecViewAdapter<>(RecViewAdapter.ViewType.DayHolder);
         diaryBinding.diaryRecView.setAdapter(adapter);
+        addAdapterChangingObserver(dayItemFlowable);
     }
 }

@@ -1,68 +1,86 @@
 package com.example.schooldiary.utils;
 
+import android.content.Context;
 import android.util.Log;
-
+import com.example.schooldiary.model.DayAndTableItems;
 import com.example.schooldiary.model.DayItem;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
+
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
+import io.reactivex.flowables.ConnectableFlowable;
+import io.reactivex.observables.ConnectableObservable;
+import io.reactivex.schedulers.Schedulers;
 
 public class DateManager {
     private Calendar calendar;
     private final DateFormat dateFormat;
+   // private final DateFormat dbDateFormat;
+    private Context context;
 
-    public DateManager(){
+    public DateManager(Context context){
         dateFormat= new SimpleDateFormat("EEEE, d MMMM", Locale.getDefault());
+     //   dbDateFormat= new SimpleDateFormat("EEEE", Locale.getDefault());
+        this.context=context;
         calendar=Calendar.getInstance();
     }
 
-    public ArrayList<DayItem> setupTwoWeeksFromCurrentCalendar(Calendar calendar){
+    public Flowable<DayAndTableItems> setupTwoWeeksFromCurrentCalendar(Calendar calendar){
         this.calendar=calendar;
-        ArrayList<DayItem> items=setupTwoWeeksFromToday();
-        this.calendar=Calendar.getInstance();
-        return items;
+        Flowable<DayAndTableItems> flowable=setupTwoWeeksFromToday();
+        return flowable;
     }
 
-    public ArrayList<DayItem> setupTwoWeeksFromToday(){
-        ArrayList<DayItem> twoWeeks=new ArrayList<>();
+    public Flowable<DayAndTableItems> setupTwoWeeksFromToday(){
+        Log.d("tut","twoWeeksSetuping");
         switch (calendar.get(Calendar.DAY_OF_WEEK)){
             case Calendar.MONDAY:{
-                loadTheWeeks(twoWeeks,0);
+                calendar.add(Calendar.DAY_OF_WEEK,0);
             }break;
             case Calendar.TUESDAY:{
-                loadTheWeeks(twoWeeks,-1);
+                calendar.add(Calendar.DAY_OF_WEEK,-1);
             }break;
             case Calendar.WEDNESDAY:{
-                loadTheWeeks(twoWeeks,-2);
+                calendar.add(Calendar.DAY_OF_WEEK,-2);
             }break;
             case Calendar.THURSDAY:{
-                loadTheWeeks(twoWeeks,-3);
+                calendar.add(Calendar.DAY_OF_WEEK,-3);
             }break;
             case Calendar.FRIDAY:{
-                loadTheWeeks(twoWeeks,-4);
+                calendar.add(Calendar.DAY_OF_WEEK,-4);
             }break;
             case Calendar.SATURDAY:{
-                loadTheWeeks(twoWeeks,-5);
+                calendar.add(Calendar.DAY_OF_WEEK,-5);
             }break;
             case Calendar.SUNDAY:{
-                loadTheWeeks(twoWeeks,-6);
+                calendar.add(Calendar.DAY_OF_WEEK,-6);
             }break;
         }
-        calendar=Calendar.getInstance();
-        return twoWeeks;
+        return DBSingleton.getInstance(context).getTableItemsDao().getDayTableItems().subscribeOn(Schedulers.io()).flatMapIterable(it -> {
+            for (DayAndTableItems item:it) {
+                loadTheWeeks(item);
+                Log.d("tut_item_title",item.getDayItem().getDate_title());
+            }
+            calendar=Calendar.getInstance();
+            return it;
+        });
     }
 
-    private void loadTheWeeks(ArrayList<DayItem> twoWeeks,int distance) {
-        calendar.add(Calendar.DAY_OF_WEEK,distance);
-        for (int i=0;i<14;i++){
-            String formattedDate=dateFormat.format(calendar.getTime());
-            twoWeeks.add(new DayItem(formattedDate));
-            calendar.add(Calendar.DAY_OF_WEEK,1);
-            Log.d("tut_twoWeeks",formattedDate);
-        }
-        Log.d("tut_twoWeeksSize", String.valueOf(twoWeeks.size()));
+    public int getTheDaysFormat(int range){
+        calendar.add(Calendar.DAY_OF_WEEK,range);
+        int num= calendar.get(Calendar.DAY_OF_WEEK);
+        calendar=Calendar.getInstance();
+        return num;
+    }
+
+    private void loadTheWeeks( DayAndTableItems item) {
+        String formattedDate=dateFormat.format(calendar.getTime());
+        item.getDayItem().setDate_title(formattedDate);
+        calendar.add(Calendar.DAY_OF_WEEK,1);
     }
 }
