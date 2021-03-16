@@ -7,4 +7,6 @@
     <dimen name="size_keyboard_right">25dp</dimen>
     <dimen name="margin_right">4dp</dimen>
     <dimen name="height_view">1dp</dimen>
+    <dimen name="margin_top_between_text">2dp</dimen>
+    <dimen name="height_edit_text">100dp</dimen>
 </resources>

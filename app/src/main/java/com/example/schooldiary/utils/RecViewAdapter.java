@@ -21,6 +21,7 @@ import com.example.schooldiary.model.TableItem;
 import com.example.schooldiary.R;
 import com.example.schooldiary.databinding.ItemDiaryElementBinding;
 import com.example.schooldiary.view.Callback;
+import com.example.schooldiary.view.fragment.EditDiaryFragment;
 import com.example.schooldiary.view.fragment.UpdateSubjectFragment;
 import com.example.schooldiary.viewmodel.SubjectViewModel;
 
@@ -128,6 +129,12 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
         public void onBind(D data) {
             item = data;
             binding.dateTitle.setText(((DayItem)item).getDay());
+
+        }
+
+        @Override
+        protected void onClickLayout() {
+
         }
     }
 
@@ -139,9 +146,8 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
         public SubjectHolder(ViewDataBinding binding) {
             super(binding);
             this.binding  = (ItemSubjectBinding) binding;
-            this.binding.deleteSubject.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            this.binding.deleteSubject.setOnClickListener((v)-> {
+                {
                     int position = dataList.indexOf(subject);
                     Observable.create((ObservableOnSubscribe<String>) emitter -> {
                         DBSingleton.getInstance(SubjectHolder.this.binding.getRoot().getContext()).getSubjectsDao().deleteSubject(subject);
@@ -154,9 +160,8 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
                     }
                 }
             });
-            this.binding.constrainLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            this.binding.constrainLayout.setOnClickListener((v)-> {
+                {
                     onClickLayout();
                 }
             });
@@ -166,7 +171,7 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
         public void onBind(D data) {
             subject = (SubjectItem) data;
             Log.d("tut_onBind", subject.getName());
-            binding.nameSubject.setText(subject.getName());
+            binding.nameSubjectText.setText(subject.getName());
             binding.setNameSubject(subject.getName());
         }
 

@@ -1,6 +1,7 @@
 package com.example.schooldiary.model;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverter;
@@ -14,14 +15,17 @@ public class SubjectItem {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
+    @ColumnInfo(name = "name")
     private String name;
+    @ColumnInfo(name = "teacher")
     private String teacher;
+    @ColumnInfo (name = "cab")
     private String cab;
 
     @TypeConverters({TypeConverterEnum.class})
     private Subjects type;
 
-    public SubjectItem(){}
+   // public SubjectItem(){}
 
     public SubjectItem(String name, String cab,String teacher, Subjects type){
         this.name = name;

@@ -17,4 +17,11 @@
     <string name="update_subject">Обновить предмет</string>
     <string name="save">Сохранено</string>
     <string name="delete">Удалить</string>
+    <string name="homework">Д.З.</string>
+    <string name="note">Заметка</string>
+    <string name="rating">Оценки</string>
+    <string name="enter_homework">Введите домашнее задание</string>
+    <string name="homework_text">Домашнее задание</string>
+    <string name="hint_notes_edit_text">Введите заметку</string>
+    <string name="homeworking">Домашка</string>
 </resources>
