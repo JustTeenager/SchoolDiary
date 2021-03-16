@@ -24,4 +24,7 @@
     <string name="homework_text">Домашнее задание</string>
     <string name="hint_notes_edit_text">Введите заметку</string>
     <string name="homeworking">Домашка</string>
+    <string name="OK">ОК</string>
+    <string name="cab_number_edit_text">Номер кабинета</string>
+    <string name="save_btn_text">Сохранить</string>
 </resources>

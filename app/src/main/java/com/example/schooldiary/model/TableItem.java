@@ -11,37 +11,8 @@ public class TableItem {
     private int id;
     private int dayOfWeek;
     private boolean isWeekEven;
-
     private String name;
-    private String homework;
-    private String notes;
-    private String marks;
     private String time;
-
-
-    public String getMarks() {
-        return marks;
-    }
-
-    public void setMarks(String marks) {
-        this.marks = marks;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
-
-    public String getHomework() {
-        return homework;
-    }
-
-    public void setHomework(String homework) {
-        this.homework = homework;
-    }
 
     public int getId() {
         return id;

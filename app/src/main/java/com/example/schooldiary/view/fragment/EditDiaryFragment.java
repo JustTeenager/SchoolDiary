@@ -19,7 +19,7 @@ public class EditDiaryFragment extends Fragment {
 
     private FragmentEditDiaryBinding binding;
 
-    public static EditDiaryFragment newInstance() {
+    public static EditDiaryFragment newInstance(String nameSubject,String date) {
         Bundle args = new Bundle();
         EditDiaryFragment fragment = new EditDiaryFragment();
         fragment.setArguments(args);

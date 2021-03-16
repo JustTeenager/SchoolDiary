@@ -76,6 +76,5 @@ public class SubjectItem {
     public String getIdString(){
         return String.valueOf(id);
     }
-
     //сюда же добавим учителя
 }
