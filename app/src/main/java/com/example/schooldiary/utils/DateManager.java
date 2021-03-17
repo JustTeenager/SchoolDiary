@@ -3,29 +3,24 @@ package com.example.schooldiary.utils;
 import android.content.Context;
 import android.util.Log;
 import com.example.schooldiary.model.DayAndTableItems;
-import com.example.schooldiary.model.DayItem;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
-import io.reactivex.flowables.ConnectableFlowable;
-import io.reactivex.observables.ConnectableObservable;
 import io.reactivex.schedulers.Schedulers;
 
 public class DateManager {
     private Calendar calendar;
     private final DateFormat dateFormat;
-   // private final DateFormat dbDateFormat;
+   private final DateFormat dbDateFormat;
     private Context context;
 
     public DateManager(Context context){
         dateFormat= new SimpleDateFormat("EEEE, d MMMM", Locale.getDefault());
-     //   dbDateFormat= new SimpleDateFormat("EEEE", Locale.getDefault());
+        dbDateFormat= new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         this.context=context;
         calendar=Calendar.getInstance();
     }
@@ -64,7 +59,7 @@ public class DateManager {
         return DBSingleton.getInstance(context).getTableItemsDao().getDayTableItems().subscribeOn(Schedulers.io()).flatMapIterable(it -> {
             for (DayAndTableItems item:it) {
                 loadTheWeeks(item);
-                Log.d("tut_item_title",item.getDayItem().getDate_title());
+                Log.d("tut_item_title",item.getDayItem().getDateTitle());
             }
             calendar=Calendar.getInstance();
             return it;
@@ -80,7 +75,9 @@ public class DateManager {
 
     private void loadTheWeeks( DayAndTableItems item) {
         String formattedDate=dateFormat.format(calendar.getTime());
-        item.getDayItem().setDate_title(formattedDate);
+        String formattedDbDate=dbDateFormat.format(calendar.getTime());
+        item.getDayItem().setDateTitle(formattedDate);
+        item.getDayItem().setDbDate(formattedDbDate);
         calendar.add(Calendar.DAY_OF_WEEK,1);
     }
 }

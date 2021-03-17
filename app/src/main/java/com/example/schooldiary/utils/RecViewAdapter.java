@@ -2,14 +2,12 @@ package com.example.schooldiary.utils;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,10 +31,7 @@ import com.example.schooldiary.viewmodel.TableItemViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 
-import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.observers.DisposableObserver;
@@ -45,7 +40,9 @@ import io.reactivex.schedulers.Schedulers;
 public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<D> dataList;
+    private DayItem dayItems;
     private ViewType type;
+
     private Callback callback;
 
     private final ViewBinderHelper helper = new ViewBinderHelper();
@@ -53,6 +50,11 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
     public RecViewAdapter(ViewType type){
         this.type = type;
         dataList = new ArrayList<>();
+    }
+
+    private RecViewAdapter(ViewType type,DayItem items){
+        this.type=type;
+        this.dayItems=items;
     }
 
     @NonNull
@@ -138,7 +140,7 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
         @Override
         public void onBind(D data) {
             item = (DayAndTableItems) data;
-            binding.dateTitle.setText((item).getDayItem().getDate_title());
+            binding.dateTitle.setText((item).getDayItem().getDateTitle());
             binding.addTableButton.setOnClickListener(v -> {
                 //TODO Добавление нового урока в расписание
                 TableItemViewModel viewModel= ViewModelProviders.of((FragmentActivity) binding.getRoot().getContext()).get(TableItemViewModel.class);
@@ -148,7 +150,7 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
                 viewModel.setLiveData(tableItem);
                 callback.replaceFragmentWithBackStack(AddTableFragment.newInstance());
             });
-            adapter= new RecViewAdapter<>(ViewType.TableHolder);
+            adapter= new RecViewAdapter<>(ViewType.TableHolder,item.getDayItem());
             fillTheSubjectsAdapter(item.getSubjects());
         }
 
@@ -249,7 +251,7 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         @Override
         protected void onClickLayout() {
-           callback.replaceFragmentWithBackStack(EditDiaryFragment.newInstance(item.getName()));
+           callback.replaceFragmentWithBackStack(EditDiaryFragment.newInstance(item.getName(),dayItems.getDbDate()));
         }
     }
 

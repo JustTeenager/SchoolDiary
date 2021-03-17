@@ -1,7 +1,6 @@
 package com.example.schooldiary.view.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +16,15 @@ import com.example.schooldiary.databinding.FragmentEditDiaryBinding;
 
 public class EditDiaryFragment extends Fragment {
 
+    private static final String SUBJECT_NAME_KEY="subject_name_key";
+    private static final String DATE_KEY="date_key";
+
     private FragmentEditDiaryBinding binding;
 
     public static EditDiaryFragment newInstance(String nameSubject,String date) {
         Bundle args = new Bundle();
+        args.putString(SUBJECT_NAME_KEY,nameSubject);
+        args.putString(DATE_KEY,date);
         EditDiaryFragment fragment = new EditDiaryFragment();
         fragment.setArguments(args);
         return fragment;

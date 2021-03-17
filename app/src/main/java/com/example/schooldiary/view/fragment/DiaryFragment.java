@@ -69,7 +69,7 @@ public class DiaryFragment extends Fragment {
 
             @Override
             public void onNext(DayAndTableItems dayTableItem) {
-                Log.d("tut","Лог онНекста: "+dayTableItem.getDayItem().getDate_title());
+                Log.d("tut","Лог онНекста: "+dayTableItem.getDayItem().getDateTitle());
                 adapter.addDataToList(dayTableItem);
                 adapter.notifyItemChanged(adapter.getItemCount()-1);
             }
