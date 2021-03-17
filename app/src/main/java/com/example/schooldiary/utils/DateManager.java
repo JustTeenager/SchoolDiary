@@ -15,12 +15,14 @@ import io.reactivex.schedulers.Schedulers;
 public class DateManager {
     private Calendar calendar;
     private final DateFormat dateFormat;
-   private final DateFormat dbDateFormat;
+    private final DateFormat dbDateFormat;
+    private final DateFormat timeDateFormat;
     private Context context;
 
     public DateManager(Context context){
         dateFormat= new SimpleDateFormat("EEEE, d MMMM", Locale.getDefault());
         dbDateFormat= new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        timeDateFormat = new SimpleDateFormat("h:mm",Locale.getDefault());
         this.context=context;
         calendar=Calendar.getInstance();
     }
@@ -71,8 +73,12 @@ public class DateManager {
         return num;
     }
 
-    public static String setStringFromTime(int hour,int minute){
-        return hour +":"+ minute;
+    public String setStringFromTime(int hour,int minute){
+        calendar.set(Calendar.HOUR,hour);
+        calendar.set(Calendar.MINUTE,minute);
+        String rez=timeDateFormat.format(calendar.getTime());
+        calendar=Calendar.getInstance();
+        return rez;
     }
 
     private void loadTheWeeks( DayAndTableItems item) {
@@ -80,6 +86,7 @@ public class DateManager {
         String formattedDbDate=dbDateFormat.format(calendar.getTime());
         item.getDayItem().setDateTitle(formattedDate);
         item.getDayItem().setDbDate(formattedDbDate);
+        item.getDayItem().setEven(calendar.get(Calendar.WEEK_OF_MONTH)%2==0);
         calendar.add(Calendar.DAY_OF_WEEK,1);
     }
 }

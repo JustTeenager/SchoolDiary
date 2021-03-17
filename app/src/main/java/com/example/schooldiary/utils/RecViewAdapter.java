@@ -34,18 +34,19 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.functions.Predicate;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<D> dataList;
-    private DayItem dayItems;
     private ViewType type;
-
     private Callback callback;
-
     private final ViewBinderHelper helper = new ViewBinderHelper();
+
+    //Гавнина
+    private DayItem dayItems;
 
     public RecViewAdapter(ViewType type){
         this.type = type;
@@ -108,10 +109,6 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
         return dataList;
     }
 
-    public void setDataList(ArrayList<D> dataList) {
-        this.dataList = dataList;
-    }
-
     public class BaseHolder extends RecyclerView.ViewHolder {
 
         public BaseHolder(ViewDataBinding binding) {
@@ -129,7 +126,7 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
     public class DayHolder extends BaseHolder{
 
         private ItemDiaryElementBinding binding;
-        private DayAndTableItems item;
+        private DayAndTableItems datTablesItem;
         private RecViewAdapter<TableItem> adapter;
 
         public DayHolder(ViewDataBinding binding) {
@@ -141,26 +138,26 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         @Override
         public void onBind(D data) {
-            item = (DayAndTableItems) data;
-            binding.dateTitle.setText((item).getDayItem().getDateTitle());
+            datTablesItem = (DayAndTableItems) data;
+            binding.dateTitle.setText((datTablesItem).getDayItem().getDateTitle());
             binding.addTableButton.setOnClickListener(v -> {
                 //TODO Добавление нового урока в расписание
                 TableItemViewModel viewModel= ViewModelProviders.of((FragmentActivity) binding.getRoot().getContext()).get(TableItemViewModel.class);
                 TableItem tableItem=new TableItem();
-                tableItem.setWeekEven(item.getDayItem().isEven());
-                tableItem.setDayOfWeek(item.getDayItem().getDay());
+                tableItem.setWeekEven(datTablesItem.getDayItem().isEven());
+                tableItem.setDayOfWeek(datTablesItem.getDayItem().getDay());
                 viewModel.setLiveData(tableItem);
                 callback.replaceFragmentWithBackStack(AddTableFragment.newInstance());
             });
             Log.d("tut_date_adapter ", String.valueOf(dataList.size()));
-            adapter= new RecViewAdapter<>(ViewType.TableHolder,item.getDayItem());
-            List<TableItem> listForAdapter=(item.getSubjects()==null? new ArrayList<>() : item.getSubjects());
+            adapter= new RecViewAdapter<>(ViewType.TableHolder, datTablesItem.getDayItem());
+            List<TableItem> listForAdapter=(datTablesItem.getSubjects()==null? new ArrayList<>() : datTablesItem.getSubjects());
             fillTheSubjectsAdapter(listForAdapter);
         }
 
         private void fillTheSubjectsAdapter(List<TableItem> list){
             this.binding.tableRecView.setAdapter(adapter);
-            Observable.fromArray(list).flatMapIterable(it -> it).subscribe(new DisposableObserver<TableItem>() {
+            Observable.fromArray(list).flatMapIterable(it -> it).filter(item -> item.isWeekEven() == datTablesItem.getDayItem().isEven()).subscribe(new DisposableObserver<TableItem>() {
                 @Override
                 public void onNext(@NonNull TableItem item) {
                     adapter.addDataToList(item);
