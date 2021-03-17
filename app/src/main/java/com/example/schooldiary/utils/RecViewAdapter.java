@@ -34,7 +34,6 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.functions.Predicate;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -152,11 +151,12 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
             Log.d("tut_date_adapter ", String.valueOf(dataList.size()));
             adapter= new RecViewAdapter<>(ViewType.TableHolder, datTablesItem.getDayItem());
             List<TableItem> listForAdapter=(datTablesItem.getSubjects()==null? new ArrayList<>() : datTablesItem.getSubjects());
-            fillTheSubjectsAdapter(listForAdapter);
+            fillTheTableItemAdapter(listForAdapter);
         }
 
-        private void fillTheSubjectsAdapter(List<TableItem> list){
+        private void fillTheTableItemAdapter(List<TableItem> list){
             this.binding.tableRecView.setAdapter(adapter);
+            //TODO четность/нечестность получается здесь,в фильтере
             Observable.fromArray(list).flatMapIterable(it -> it).filter(item -> item.isWeekEven() == datTablesItem.getDayItem().isEven()).subscribe(new DisposableObserver<TableItem>() {
                 @Override
                 public void onNext(@NonNull TableItem item) {

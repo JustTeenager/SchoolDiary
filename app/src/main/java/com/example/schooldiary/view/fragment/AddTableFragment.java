@@ -72,7 +72,7 @@ public class AddTableFragment extends Fragment {
             binding.subjectSpinner.setAdapter(adapter);
             if (value.getName()!=null){
                 binding.subjectSpinner.setSelection(Arrays.asList(it).indexOf(value.getName()));
-                String[] timeArray = value.getTime().split(":");
+                String[] timeArray = value.getTime().split("-")[0].split(":");
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     binding.timePicker.setHour(Integer.parseInt(timeArray[0]));
                     binding.timePicker.setMinute(Integer.parseInt(timeArray[1]));

@@ -7,9 +7,12 @@ import com.example.schooldiary.model.DayAndTableItems;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import io.reactivex.Flowable;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
 public class DateManager {
@@ -57,11 +60,14 @@ public class DateManager {
                 calendar.add(Calendar.DAY_OF_WEEK,-6);
             }break;
         }
-        return DBSingleton.getInstance(context).getTableItemsDao().getDayTableItems().subscribeOn(Schedulers.io()).flatMapIterable(it -> {
+
+        return DBSingleton.getInstance(context).getTableItemsDao().getDayTableItems().take(14).subscribeOn(Schedulers.single())
+                .flatMapIterable(it -> {
             for (DayAndTableItems item:it) {
                 loadTheWeeks(item);
             }
             calendar=Calendar.getInstance();
+            Log.d("tut_final_list_size", String.valueOf(it.size()));
             return it;
         });
     }
@@ -77,6 +83,8 @@ public class DateManager {
         calendar.set(Calendar.HOUR,hour);
         calendar.set(Calendar.MINUTE,minute);
         String rez=timeDateFormat.format(calendar.getTime());
+        calendar.add(Calendar.MINUTE,90);
+        rez+="-"+timeDateFormat.format(calendar.getTime());
         calendar=Calendar.getInstance();
         return rez;
     }

@@ -79,6 +79,8 @@ public class BottomNavigationFragment extends Fragment {
     }
 
     private void replaceFragment(Fragment fragment){
-        getFragmentManager().beginTransaction().replace(R.id.container,fragment).commit();
+        getFragmentManager().beginTransaction()
+                //.setCustomAnimations(R.anim.enter_right_to_left,R.anim.exit_right_to_left, R.anim.enter_left_to_right,R.anim.exit_left_to_right)
+                .replace(R.id.container,fragment).commit();
     }
 }

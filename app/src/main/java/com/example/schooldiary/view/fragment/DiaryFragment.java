@@ -88,7 +88,6 @@ public class DiaryFragment extends Fragment {
 
             @Override
             public void onComplete() {
-                Log.e("tut","onComplete");
             }
         });
     }
@@ -117,8 +116,6 @@ public class DiaryFragment extends Fragment {
     }
 
     public static DiaryFragment newInstance() {
-
-
         Bundle args = new Bundle();
         DiaryFragment fragment = new DiaryFragment();
         fragment.setArguments(args);
@@ -127,8 +124,9 @@ public class DiaryFragment extends Fragment {
 
     private void setupRecyclerView(){
         diaryBinding.diaryRecView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        Flowable<DayAndTableItems> dayItemFlowable= dateManager.setupTwoWeeksFromToday().observeOn(AndroidSchedulers.mainThread());
+        diaryBinding.diaryRecView.setItemViewCacheSize(14);
+        //TODO Фловабл с миллионом элементов
+        Flowable<DayAndTableItems> dayItemFlowable= dateManager.setupTwoWeeksFromToday();
         adapter=new RecViewAdapter<>(RecViewAdapter.ViewType.DayHolder);
         diaryBinding.diaryRecView.setAdapter(adapter);
         addAdapterChangingObserver(dayItemFlowable);

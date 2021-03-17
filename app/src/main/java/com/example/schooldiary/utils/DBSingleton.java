@@ -31,10 +31,10 @@ public class DBSingleton {
                     @Override
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {
                         super.onCreate(db);
-                        Observable.range(0,14).subscribeOn(Schedulers.io()).subscribe(it ->{
+                       /* Observable.range(0,14).subscribeOn(Schedulers.single()).subscribe(it ->{
                             DayItem item=new DayItem(new DateManager(context).getTheDaysFormat(it%7),it<7);
                             getDiaryDao().insertDay(item);
-                        });
+                        });*/
                     }
                 })
                 .build();
