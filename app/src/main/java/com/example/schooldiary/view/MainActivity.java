@@ -8,30 +8,31 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.schooldiary.R;
-import com.example.schooldiary.utils.DBSingleton;
-import com.example.schooldiary.utils.RecViewAdapter;
+import com.example.schooldiary.databinding.FragmentMainBinding;
 import com.example.schooldiary.view.fragment.AboutCompanyFragment;
-import com.example.schooldiary.view.fragment.DiaryFragment;
-import com.example.schooldiary.view.fragment.SubjectsFragment;
-import com.example.schooldiary.databinding.ActivityMainBinding;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.schooldiary.view.fragment.BottomNavigationFragment;
 
-public class MainActivity extends AppCompatActivity implements Callback {
-    private ActivityMainBinding binding;
+public class MainActivity extends BaseActivity implements Callback{
+    @Override
+    public Fragment getFragment() {
+        return BottomNavigationFragment.newInstance();
+    }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_main);
-        setupNavigationMenu();
+    public int getLayoutRes() {
+        return R.layout.activity_container;
+    }
+
+    @Override
+    public void replaceFragmentWithBackStack(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_right_to_left,R.anim.exit_right_to_left, R.anim.enter_left_to_right,R.anim.exit_left_to_right).replace(R.id.fragment_container,fragment).addToBackStack(null).commit();
+        //getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_right_to_left,R.anim.exit_right_to_left, R.anim.enter_left_to_right,R.anim.exit_left_to_right).replace(R.id.fragment_container,fragment).addToBackStack(null).commit();
     }
 
 
-
-    private void setupNavigationMenu() {
+    /*private void setupNavigationMenu() {
         binding.bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -65,8 +66,7 @@ public class MainActivity extends AppCompatActivity implements Callback {
 
     @Override
     public void replaceFragmentWithBackStack(Fragment fragment) {
-
         getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_right_to_left,R.anim.exit_right_to_left, R.anim.enter_left_to_right,R.anim.exit_left_to_right).replace(R.id.container,fragment).addToBackStack(null).commit();
-    }
+    }*/
 }
 

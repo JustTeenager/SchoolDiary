@@ -21,7 +21,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutRes());
-
         Fragment fragment=getSupportFragmentManager().findFragmentById(R.id.fragment_container);
         if (fragment==null)
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,getFragment()).commit();

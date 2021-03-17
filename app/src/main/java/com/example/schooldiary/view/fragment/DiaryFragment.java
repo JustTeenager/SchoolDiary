@@ -88,6 +88,7 @@ public class DiaryFragment extends Fragment {
 
             @Override
             public void onComplete() {
+                Log.e("tut","onComplete");
             }
         });
     }
