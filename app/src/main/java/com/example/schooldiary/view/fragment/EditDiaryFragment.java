@@ -69,7 +69,7 @@ public class EditDiaryFragment extends Fragment {
                     return getActivity().getString(R.string.homework);
                 }
                 else if(position == 1){
-                    return getActivity().getString(R.string.note);
+                    return getActivity().getString(R.string.notes);
                 }
                 else if(position == 2){
                     return getActivity().getString(R.string.rating);

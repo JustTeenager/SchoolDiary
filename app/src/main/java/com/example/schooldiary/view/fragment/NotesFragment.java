@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +30,8 @@ public class NotesFragment extends Fragment {
     private static final String POSITION_CODE = "position_code";
     private static final String SUBJECT_NAME_KEY="subject_name_key";
     private static final String DATE_KEY="date_key";
+    private static final int HOMEWORK_FRAGMENT_CODE = 0;
+    private static final int NOTES_FRAGMENT_CODE = 0;
     private FragmentWithNotesBinding binding;
     private String nameSubject;
     private String date;
@@ -61,12 +64,12 @@ public class NotesFragment extends Fragment {
 
     private void setViewModel() {
         viewModel = new DiaryViewModel();
-        if (position == 0){
-            viewModel.setTextNote(getActivity().getString(R.string.homework_text)+" "+nameSubject);
+        if (position == HOMEWORK_FRAGMENT_CODE){
+            viewModel.setTextNote(getActivity().getString(R.string.homework_text)+" "+nameSubject.toLowerCase());
             viewModel.setHintEditText(getActivity().getString(R.string.enter_homework));
         }
-        else{
-            viewModel.setTextNote(getActivity().getString(R.string.note)+" "+nameSubject);
+        else if (position == NOTES_FRAGMENT_CODE){
+            viewModel.setTextNote(getActivity().getString(R.string.note)+" "+nameSubject.toLowerCase());
             viewModel.setHintEditText(getActivity().getString(R.string.hint_notes_edit_text));
         }
         viewModel.setDate(date);
@@ -75,12 +78,13 @@ public class NotesFragment extends Fragment {
                 notesTable = new NotesTable(date, nameSubject);
             }
             if (!binding.notesEditText.getText().toString().isEmpty()) {
-                if (position == 0) {
+                if (position == HOMEWORK_FRAGMENT_CODE) {
                     notesTable.setHomework(binding.notesEditText.getText().toString());
-                } else {
+                } else if (position == NOTES_FRAGMENT_CODE){
                     notesTable.setNote(binding.notesEditText.getText().toString());
                 }
                 addNotesTable();
+                Toast.makeText(getActivity(),getActivity().getString(R.string.save),Toast.LENGTH_SHORT).show();
             }
         });
         binding.setViewModel(viewModel);
@@ -97,10 +101,10 @@ public class NotesFragment extends Fragment {
         DBSingleton.getInstance(getActivity()).getNotesDao().getNotesTable(date,nameSubject).subscribeOn(Schedulers.io())
                 .subscribe(it->{
                 notesTable = it;
-                if (position == 0){
+                if (position == HOMEWORK_FRAGMENT_CODE){
                     viewModel.setNote(notesTable.getHomework());
                 }
-                else if(position == 1){
+                else if(position == NOTES_FRAGMENT_CODE){
                     viewModel.setNote(notesTable.getNote());
                 }
         });

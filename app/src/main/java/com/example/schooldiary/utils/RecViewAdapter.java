@@ -85,6 +85,7 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
                 break;
             case TableHolder:
                 ((TableHolder) holder).onBind(dataList.get(position));
+                helper.bind(((TableHolder)holder).getSwipeReveal(), ((TableItem)dataList.get(position)).getIdString() );
                 break;
         }
     }
@@ -194,16 +195,7 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
             this.binding  = (ItemSubjectBinding) binding;
             this.binding.deleteSubject.setOnClickListener((v)-> {
                 {
-                    int position = dataList.indexOf(subject);
-                    Observable.create((ObservableOnSubscribe<String>) emitter -> {
-                        DBSingleton.getInstance(SubjectHolder.this.binding.getRoot().getContext()).getSubjectsDao().deleteSubject(subject);
-                        emitter.onComplete();
-                    }).subscribeOn(Schedulers.io()).subscribe();
-
-                    if (position > -1 && position < dataList.size()) {
-                        dataList.remove(position);
-                        notifyItemRemoved(position);
-                    }
+                    deleteSubject();
                 }
             });
             this.binding.constrainLayout.setOnClickListener((v)-> {
@@ -221,6 +213,19 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
             binding.setNameSubject(subject.getName());
         }
 
+        private void deleteSubject() {
+            int position = dataList.indexOf(subject);
+            Observable.create((ObservableOnSubscribe<String>) emitter -> {
+                DBSingleton.getInstance(SubjectHolder.this.binding.getRoot().getContext()).getSubjectsDao().deleteSubject(subject);
+                emitter.onComplete();
+            }).subscribeOn(Schedulers.io()).subscribe();
+
+            if (position > -1 && position < dataList.size()) {
+                dataList.remove(position);
+                notifyItemRemoved(position);
+            }
+        }
+
         @Override
         protected void onClickLayout() {
             SubjectViewModel viewModel = ViewModelProviders.of((FragmentActivity) binding.getRoot().getContext()).get(SubjectViewModel.class);
@@ -236,11 +241,13 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
     public class TableHolder extends BaseHolder{
 
         private ItemTableBinding binding;
+
         private TableItem item;
 
         public TableHolder(ViewDataBinding binding) {
             super(binding);
             this.binding= (ItemTableBinding) binding;
+            this.binding.editSubject.setOnClickListener(v -> editSubjectInTable());
             this.binding.tableLayout.setOnClickListener(v-> onClickLayout());
         }
 
@@ -252,10 +259,21 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
             binding.timeText.setText(item.getTime());
         }
 
+        private void editSubjectInTable(){
+            TableItemViewModel viewModel = ViewModelProviders.of((FragmentActivity) binding.getRoot().getContext()).get(TableItemViewModel.class);
+            viewModel.setLiveData(item);
+            callback.replaceFragmentWithBackStack(AddTableFragment.newInstance());
+        }
+
         @Override
         protected void onClickLayout() {
            callback.replaceFragmentWithBackStack(EditDiaryFragment.newInstance(item.getName(),dayItems.getDbDate()));
         }
+
+        public SwipeRevealLayout getSwipeReveal(){
+            return  binding.swipeReveal;
+        }
+
     }
 
     public enum ViewType{

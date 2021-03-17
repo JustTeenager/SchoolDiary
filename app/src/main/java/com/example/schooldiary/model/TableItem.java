@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.StringReader;
+
 @Entity(tableName = "tables")
 public class TableItem {
     @PrimaryKey(autoGenerate = true)
@@ -52,5 +54,9 @@ public class TableItem {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getIdString(){
+        return String.valueOf(id);
     }
 }

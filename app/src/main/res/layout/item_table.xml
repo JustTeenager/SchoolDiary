@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <com.chauthai.swipereveallayout.SwipeRevealLayout
+        android:id="@+id/swipe_reveal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:mode="same_level"
+        app:dragEdge="right">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/red">
+        <Button
+            android:id="@+id/edit_subject"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            style="@style/swipe_button"
+            android:text="@string/edit"
+            />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
     <LinearLayout
         android:id="@+id/table_layout"
         android:orientation="horizontal"
@@ -34,4 +60,6 @@
             android:layout_marginRight="@dimen/margin_right" />
         </LinearLayout>
     </LinearLayout>
+    </FrameLayout>
+    </com.chauthai.swipereveallayout.SwipeRevealLayout>
 </layout>
