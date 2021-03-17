@@ -6,13 +6,12 @@ import com.example.schooldiary.model.DayAndTableItems;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
+import java.util.Collections;
 import java.util.Locale;
 
 import io.reactivex.Flowable;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
 public class DateManager {
@@ -61,11 +60,21 @@ public class DateManager {
             }break;
         }
 
-        return DBSingleton.getInstance(context).getTableItemsDao().getDayTableItems().take(14).subscribeOn(Schedulers.single())
+        return DBSingleton.getInstance(context).getTableItemsDao().getDayTableItems().subscribeOn(Schedulers.single())
                 .flatMapIterable(it -> {
+                    ArrayList<DayAndTableItems> tempList=new ArrayList<>();
+                    Collections.copy(tempList,it);
+                    for (DayAndTableItems item:tempList){
+                        for (int j=0;j<tempList.size();j++){
+                            if (tempList.get(j).getDayItem().getId()==item.getDayItem().getId())
+                            {
+                                it.remove(item);
+                            }
+                        }
+                    }
             for (DayAndTableItems item:it) {
                 loadTheWeeks(item);
-            }
+                }
             calendar=Calendar.getInstance();
             Log.d("tut_final_list_size", String.valueOf(it.size()));
             return it;
@@ -80,13 +89,22 @@ public class DateManager {
     }
 
     public String setStringFromTime(int hour,int minute){
-        calendar.set(Calendar.HOUR,hour);
+        calendar.set(Calendar.HOUR_OF_DAY,hour);
         calendar.set(Calendar.MINUTE,minute);
-        String rez=timeDateFormat.format(calendar.getTime());
+        String rez= calendar.get(Calendar.HOUR_OF_DAY)+":"+checkZeros(String.valueOf(calendar.get(Calendar.MINUTE)))+"-";
         calendar.add(Calendar.MINUTE,90);
-        rez+="-"+timeDateFormat.format(calendar.getTime());
+        //rez+= checkZeros(String.valueOf(calendar.get(Calendar.HOUR_OF_DAY)))+":"+ checkZeros(String.valueOf(calendar.get(Calendar.MINUTE)));
+        rez+= calendar.get(Calendar.HOUR_OF_DAY)+":"+checkZeros(String.valueOf(calendar.get(Calendar.MINUTE)));
+        Log.d("tut_calendar",rez);
         calendar=Calendar.getInstance();
         return rez;
+    }
+
+    private String checkZeros(String str){
+        if (Integer.valueOf(str)<=9){
+            return "0"+str;
+        }
+        return str;
     }
 
     private void loadTheWeeks( DayAndTableItems item) {

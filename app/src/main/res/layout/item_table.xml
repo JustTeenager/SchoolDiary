@@ -65,6 +65,27 @@
                 app:layout_constraintStart_toStartOf="@id/guideline"
                 app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            android:id="@+id/subject_cab_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/keyboard_right"
+            app:layout_constraintStart_toEndOf="@id/cab_guideline"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/cab_guideline"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintGuide_end="@dimen/guideline_in_item_table_cab"
+            android:orientation="vertical"/>
+
+
             <ImageView
                 android:id="@+id/keyboard_right"
                 android:layout_width="@dimen/size_keyboard_right"

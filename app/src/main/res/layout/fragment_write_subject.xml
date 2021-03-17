@@ -23,14 +23,6 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/lesson"
                 android:layout_margin="@dimen/text_margin" />
-
-            <EditText
-                android:id="@+id/cab_edit_text"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:hint="@string/cab"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/text_margin" />
         </LinearLayout>
 
         <EditText

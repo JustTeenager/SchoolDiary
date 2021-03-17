@@ -44,9 +44,6 @@ public class AddSubjectFragment  extends Fragment {
             if (binding.nameEditText.getText().toString().isEmpty()){
                 Toast.makeText(getActivity(),R.string.enter_lesson, Toast.LENGTH_SHORT).show();
             }
-            else if (binding.cabEditText.getText().toString().isEmpty()){
-                Toast.makeText(getActivity(),R.string.enter_cab, Toast.LENGTH_SHORT).show();
-            }
             else if(binding.teacherEditText.getText().toString().isEmpty()){
                 Toast.makeText(getActivity(),R.string.enter_teacher, Toast.LENGTH_SHORT).show();
             }
@@ -56,7 +53,7 @@ public class AddSubjectFragment  extends Fragment {
             else{
 
                 Observable.create((ObservableOnSubscribe<String>) emitter -> {
-                    SubjectItem subject = new SubjectItem(binding.nameEditText.getText().toString(),binding.cabEditText.getText().toString(),binding.teacherEditText.getText().toString(), type);
+                    SubjectItem subject = new SubjectItem(binding.nameEditText.getText().toString(),binding.teacherEditText.getText().toString(), type);
                     writeSubjectItem(subject);
                     emitter.onComplete();
                 }).subscribeOn(Schedulers.io()).subscribe();

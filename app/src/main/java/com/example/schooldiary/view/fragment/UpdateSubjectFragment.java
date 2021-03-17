@@ -43,7 +43,7 @@ public class UpdateSubjectFragment extends AddSubjectFragment {
     private void setSubjectItemDataToAllView(SubjectItem subjectItem) {
         idSubject = subjectItem.getId();
         binding.nameEditText.setText(subjectItem.getName());
-        binding.cabEditText.setText(subjectItem.getCab());
+      //  binding.cabEditText.setText(subjectItem.getCab());
         binding.teacherEditText.setText(subjectItem.getTeacher());
         if (subjectItem.getType() == Subjects.Science) {
             binding.scienceCheck.setChecked(true);

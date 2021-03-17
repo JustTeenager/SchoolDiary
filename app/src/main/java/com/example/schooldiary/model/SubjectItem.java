@@ -18,17 +18,14 @@ public class SubjectItem {
     private String name;
     @ColumnInfo(name = "teacher")
     private String teacher;
-    @ColumnInfo (name = "cab")
-    private String cab;
 
     @TypeConverters({TypeConverterEnum.class})
     private Subjects type;
 
    // public SubjectItem(){}
 
-    public SubjectItem(String name, String cab,String teacher, Subjects type){
+    public SubjectItem(String name, String teacher, Subjects type){
         this.name = name;
-        this.cab = cab;
         this.type = type;
         this.teacher = teacher;
     }
@@ -47,14 +44,6 @@ public class SubjectItem {
 
     public void setTeacher(String teacher) {
         this.teacher = teacher;
-    }
-
-    public String getCab() {
-        return cab;
-    }
-
-    public void setCab(String cab) {
-        this.cab = cab;
     }
 
     public Subjects getType() {

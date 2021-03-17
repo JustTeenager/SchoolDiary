@@ -8,6 +8,14 @@
         android:gravity="center|top"
         android:layout_height="match_parent">
 
+        <EditText
+            android:id="@+id/cab_edit_text"
+            android:layout_width="match_parent"
+            android:hint="@string/cab"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:autofillHints="@string/cab" />
+
         <Spinner
             android:id="@+id/subject_spinner"
             android:layout_width="wrap_content"

@@ -2,6 +2,7 @@ package com.example.schooldiary.view.fragment;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,20 +49,29 @@ public class AddTableFragment extends Fragment {
         dateManager=new DateManager(getContext());
         viewModel.getLiveData().observe(this, item -> value=item);
         binding= DataBindingUtil.inflate(inflater,R.layout.fragment_add_table,container,false);
-        binding.timePicker.setIs24HourView(false);
+        binding.timePicker.setIs24HourView(true);
         binding.timePicker.setOnTimeChangedListener((view, hourOfDay, minute) -> {
+            Log.d("tut_hour", String.valueOf(hourOfDay));
+            Log.d("tut_minute", String.valueOf(minute));
             value.setTime(dateManager.setStringFromTime(hourOfDay,minute));
         });
         binding.saveButton.setOnClickListener(v -> {
             value.setName(binding.subjectSpinner.getSelectedItem().toString());
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 value.setTime(dateManager.setStringFromTime(binding.timePicker.getHour(),binding.timePicker.getMinute()));
             }
-            Observable.create((ObservableOnSubscribe<String>) emitter -> {
-                DBSingleton.getInstance(getContext()).getTableItemsDao().insertTableItem(value);
-                emitter.onComplete();
-            }).subscribeOn(Schedulers.io()).subscribe();
-            Toast.makeText(getActivity(),getActivity().getString(R.string.save),Toast.LENGTH_SHORT).show();
+            if (binding.cabEditText.getText()==null || binding.cabEditText.toString().isEmpty()){
+                Toast.makeText(getActivity(),R.string.enter_cab, Toast.LENGTH_SHORT).show();
+            }
+            else {
+                value.setCab(binding.cabEditText.getText().toString());
+                Observable.create((ObservableOnSubscribe<String>) emitter -> {
+                    DBSingleton.getInstance(getContext()).getTableItemsDao().insertTableItem(value);
+                    emitter.onComplete();
+                }).subscribeOn(Schedulers.io()).subscribe();
+                Toast.makeText(getActivity(), getActivity().getString(R.string.save), Toast.LENGTH_SHORT).show();
+            }
         });
         DBSingleton.getInstance(getContext()).getSubjectsDao().getSubjects().subscribeOn(Schedulers.io()).map(subjectItems -> {
            String[] list=new String[subjectItems.size()];

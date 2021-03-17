@@ -13,6 +13,8 @@ public class TableItem {
     private int id;
     private int dayOfWeek;
     private boolean isWeekEven;
+
+    private String cab;
     private String name;
     private String time;
 
@@ -58,5 +60,13 @@ public class TableItem {
 
     public String getIdString(){
         return String.valueOf(id);
+    }
+
+    public String getCab() {
+        return cab;
+    }
+
+    public void setCab(String cab) {
+        this.cab = cab;
     }
 }

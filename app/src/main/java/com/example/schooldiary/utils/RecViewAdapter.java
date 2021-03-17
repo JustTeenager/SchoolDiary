@@ -166,7 +166,7 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         private void fillTheTableItemAdapter(List<TableItem> list){
             this.binding.tableRecView.setAdapter(adapter);
-            //TODO четность/нечестность получается здесь,в фильтере
+            //TODO четность/нечетность получается здесь,в фильтере
             Observable.fromArray(list).flatMapIterable(it -> it).filter(item -> item.isWeekEven() == datTablesItem.getDayItem().isEven()).subscribe(new DisposableObserver<TableItem>() {
                 @Override
                 public void onNext(@NonNull TableItem item) {
@@ -264,6 +264,8 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
             item= (TableItem) data;
             binding.subjectNameText.setText(item.getName());
             binding.timeText.setText(item.getTime());
+           // Log.d("tut_cab_in_adapter",binding.getRoot().getContext().getString(R.string.cab_extension)+item.getCab());
+            binding.subjectCabText.setText(item.getCab());
         }
 
         private void editSubjectInTable(){

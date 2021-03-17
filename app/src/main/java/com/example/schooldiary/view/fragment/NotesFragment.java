@@ -101,7 +101,7 @@ public class NotesFragment extends Fragment {
         DBSingleton.getInstance(getActivity()).getNotesDao().getNotesTable(date,nameSubject).subscribeOn(Schedulers.io())
                 .subscribe(it->{
                 notesTable = it;
-                Log.d("tut",notesTable.getHomework());
+               // Log.d("tut",notesTable.getHomework());
                 if (position == HOMEWORK_FRAGMENT_CODE){
                     viewModel.setNote(notesTable.getHomework());
                 }

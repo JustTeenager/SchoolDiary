@@ -9,6 +9,7 @@
     <dimen name="height_view">1dp</dimen>
     <dimen name="margin_top_between_text">2dp</dimen>
     <dimen name="height_edit_text">100dp</dimen>
-    <dimen name="guideline_in_item_table">80dp</dimen>
-    <dimen name="height_recycler_with_marks">70dp</dimen>
+    <dimen name="guideline_in_item_table">100dp</dimen>
+    <dimen name="guideline_in_item_table_cab">85dp</dimen>
+    <dimen name="height_recycler_with_marks">100dp</dimen>
 </resources>
