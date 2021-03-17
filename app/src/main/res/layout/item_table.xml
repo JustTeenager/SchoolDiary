@@ -5,7 +5,7 @@
     <com.chauthai.swipereveallayout.SwipeRevealLayout
         android:id="@+id/swipe_reveal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         app:mode="same_level"
         app:dragEdge="right">
 
@@ -13,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="@color/red">
+
         <Button
             android:id="@+id/edit_subject"
             android:layout_width="match_parent"
@@ -21,45 +22,66 @@
             style="@style/swipe_button"
             android:text="@string/edit"
             />
-
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/table_layout"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintGuide_begin="@dimen/guideline_in_item_table"
+            android:orientation="vertical"/>
         <TextView
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:id="@+id/time_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_marginLeft="8dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-            android:id="@+id/subject_name_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-
-        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="end">
+            android:textColor="@color/dark_grey"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginLeft="@dimen/margin_right"
+            app:layout_constraintEnd_toEndOf="@+id/guideline"/>
+
+        <TextView
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:id="@+id/subject_name_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/keyboard_right"
+            app:layout_constraintStart_toStartOf="@id/guideline"/>
+
         <ImageView
             android:id="@+id/keyboard_right"
             android:layout_width="@dimen/size_keyboard_right"
             android:layout_height="@dimen/size_keyboard_right"
             android:src="@drawable/keyboard_right"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginRight="@dimen/margin_right" />
-        </LinearLayout>
-    </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_view"
+            android:background="@color/light_grey"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
     </com.chauthai.swipereveallayout.SwipeRevealLayout>
 </layout>

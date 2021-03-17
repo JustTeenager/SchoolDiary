@@ -31,7 +31,7 @@ public class NotesFragment extends Fragment {
     private static final String SUBJECT_NAME_KEY="subject_name_key";
     private static final String DATE_KEY="date_key";
     private static final int HOMEWORK_FRAGMENT_CODE = 0;
-    private static final int NOTES_FRAGMENT_CODE = 0;
+    private static final int NOTES_FRAGMENT_CODE = 1;
     private FragmentWithNotesBinding binding;
     private String nameSubject;
     private String date;
