@@ -3,12 +3,15 @@ package com.example.schooldiary.view.fragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
+import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,15 +28,19 @@ import com.example.schooldiary.databinding.FragmentAddTableBinding;
 import com.example.schooldiary.model.SubjectItem;
 import com.example.schooldiary.model.TableItem;
 import com.example.schooldiary.utils.DBSingleton;
+import com.example.schooldiary.utils.DateManager;
 import com.example.schooldiary.viewmodel.TableItemViewModel;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.Maybe;
 import io.reactivex.MaybeObserver;
 import io.reactivex.MaybeSource;
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -59,10 +66,21 @@ public class AddTableFragment extends Fragment {
         value=new TableItem();
         viewModel.getLiveData().observe(this, item -> value=item);
         FragmentAddTableBinding binding= DataBindingUtil.inflate(inflater,R.layout.fragment_add_table,container,false);
+        binding.timePicker.setIs24HourView(false);
+        binding.timePicker.setOnTimeChangedListener((view, hourOfDay, minute) -> {
+            Log.d("tut_time_listener","changing");
+            value.setTime(DateManager.setStringFromTime(hourOfDay,minute));
+
+        });
         binding.saveButton.setOnClickListener(v -> {
             value.setName(binding.subjectSpinner.getSelectedItem().toString());
-            value.setTime("228:69");
-            Observable.just("1").observeOn(Schedulers.io()).subscribe(it->{DBSingleton.getInstance(getContext()).getTableItemsDao().insertTableItem(value);});
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                value.setTime(DateManager.setStringFromTime(binding.timePicker.getHour(),binding.timePicker.getMinute()));
+            }
+            Observable.create((ObservableOnSubscribe<String>) emitter -> {
+                DBSingleton.getInstance(getContext()).getTableItemsDao().insertTableItem(value);
+                emitter.onComplete();
+            }).subscribeOn(Schedulers.io()).subscribe();
         });
         DBSingleton.getInstance(getContext()).getSubjectsDao().getSubjects().subscribeOn(Schedulers.io()).map(new Function<List<SubjectItem>, String[]>() {
 

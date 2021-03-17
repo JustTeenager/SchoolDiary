@@ -13,6 +13,7 @@ import com.example.schooldiary.model.TableItem;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 

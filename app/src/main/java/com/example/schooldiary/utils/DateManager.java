@@ -27,8 +27,7 @@ public class DateManager {
 
     public Flowable<DayAndTableItems> setupTwoWeeksFromCurrentCalendar(Calendar calendar){
         this.calendar=calendar;
-        Flowable<DayAndTableItems> flowable=setupTwoWeeksFromToday();
-        return flowable;
+        return setupTwoWeeksFromToday();
     }
 
     public Flowable<DayAndTableItems> setupTwoWeeksFromToday(){
@@ -59,7 +58,6 @@ public class DateManager {
         return DBSingleton.getInstance(context).getTableItemsDao().getDayTableItems().subscribeOn(Schedulers.io()).flatMapIterable(it -> {
             for (DayAndTableItems item:it) {
                 loadTheWeeks(item);
-                Log.d("tut_item_title",item.getDayItem().getDateTitle());
             }
             calendar=Calendar.getInstance();
             return it;
@@ -71,6 +69,10 @@ public class DateManager {
         int num= calendar.get(Calendar.DAY_OF_WEEK);
         calendar=Calendar.getInstance();
         return num;
+    }
+
+    public static String setStringFromTime(int hour,int minute){
+        return hour +":"+ minute;
     }
 
     private void loadTheWeeks( DayAndTableItems item) {

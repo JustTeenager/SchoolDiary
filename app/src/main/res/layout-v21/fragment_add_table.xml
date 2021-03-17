@@ -15,6 +15,10 @@
         
         <TimePicker
             android:id="@+id/time_picker"
+            android:amPmTextColor="@color/purple_700"
+            android:numbersSelectorColor="@color/purple_700"
+            android:amPmBackgroundColor="@color/purple_500"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

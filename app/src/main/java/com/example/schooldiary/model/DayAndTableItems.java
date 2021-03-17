@@ -3,6 +3,7 @@ package com.example.schooldiary.model;
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DayAndTableItems {
@@ -11,7 +12,7 @@ public class DayAndTableItems {
     private DayItem dayItem;
 
     @Relation(parentColumn = "day",entityColumn = "dayOfWeek")
-    private List<TableItem> subjects;
+    private List<TableItem> subjects=new ArrayList<>();
 
     public DayItem getDayItem() {
         return dayItem;

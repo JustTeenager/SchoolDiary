@@ -151,8 +151,10 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
                 viewModel.setLiveData(tableItem);
                 callback.replaceFragmentWithBackStack(AddTableFragment.newInstance());
             });
+            Log.d("tut_date_adapter ", String.valueOf(dataList.size()));
             adapter= new RecViewAdapter<>(ViewType.TableHolder,item.getDayItem());
-            fillTheSubjectsAdapter(item.getSubjects());
+            List<TableItem> listForAdapter=(item.getSubjects()==null? new ArrayList<>() : item.getSubjects());
+            fillTheSubjectsAdapter(listForAdapter);
         }
 
         private void fillTheSubjectsAdapter(List<TableItem> list){

@@ -17,6 +17,7 @@ import com.example.schooldiary.utils.daos.TableItemsDao;
 import java.util.Calendar;
 
 import io.reactivex.Flowable;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -30,7 +31,7 @@ public class DBSingleton {
                     @Override
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {
                         super.onCreate(db);
-                        Observable.range(0,14).subscribeOn(Schedulers.computation()).subscribe(it ->{
+                        Observable.range(0,14).subscribeOn(Schedulers.io()).subscribe(it ->{
                             DayItem item=new DayItem(new DateManager(context).getTheDaysFormat(it%7),it<7);
                             getDiaryDao().insertDay(item);
                         });
