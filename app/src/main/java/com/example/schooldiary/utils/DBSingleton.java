@@ -13,6 +13,7 @@ import com.example.schooldiary.utils.daos.NotesDao;
 import com.example.schooldiary.utils.daos.SubjectsDao;
 import com.example.schooldiary.utils.daos.DaysDiaryDao;
 import com.example.schooldiary.utils.daos.TableItemsDao;
+import com.example.schooldiary.view.MainActivity;
 
 import java.util.Calendar;
 
@@ -31,10 +32,12 @@ public class DBSingleton {
                     @Override
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {
                         super.onCreate(db);
-                       /* Observable.range(0,14).subscribeOn(Schedulers.single()).subscribe(it ->{
+                        Observable.range(0,14).subscribeOn(Schedulers.io()).subscribe(it ->{
+                            //DayItem item=new DayItem(new DateManager(context).getTheDaysFormat(it%7),it<7);
+                            //getDiaryDao().insertDay(item);
                             DayItem item=new DayItem(new DateManager(context).getTheDaysFormat(it%7),it<7);
-                            getDiaryDao().insertDay(item);
-                        });*/
+                            getInstance(context).getDiaryDao().insertDay(item);
+                        });
                     }
                 })
                 .build();

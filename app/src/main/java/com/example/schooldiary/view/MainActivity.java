@@ -9,14 +9,14 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.example.schooldiary.R;
-import com.example.schooldiary.databinding.FragmentMainBinding;
-import com.example.schooldiary.model.DayItem;
 import com.example.schooldiary.utils.DBSingleton;
 import com.example.schooldiary.utils.DateManager;
 import com.example.schooldiary.view.fragment.AboutCompanyFragment;
 import com.example.schooldiary.view.fragment.BottomNavigationFragment;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -27,11 +27,10 @@ public class MainActivity extends AppCompatActivity implements Callback{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_container);
-        Observable.range(0,14).subscribeOn(Schedulers.single()).subscribe(new DisposableObserver<Integer>() {
+        Observable.range(15,28).subscribeOn(Schedulers.single()).subscribe(new DisposableObserver<Integer>() {
             @Override
             public void onNext(@NonNull Integer integer) {
-                DayItem item=new DayItem(new DateManager(MainActivity.this).getTheDaysFormat(integer%7),integer<7);
-                DBSingleton.getInstance(MainActivity.this).getDiaryDao().insertDay(item);
+                DBSingleton.getInstance(MainActivity.this).getDiaryDao().getDiary();
             }
 
             @Override

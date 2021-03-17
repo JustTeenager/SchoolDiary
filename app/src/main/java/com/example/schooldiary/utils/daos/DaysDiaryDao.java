@@ -28,4 +28,7 @@ public interface DaysDiaryDao {
 
     @Delete
     void deleteDay(DayItem item);
+
+    @Query("DELETE FROM diary WHERE id = :id")
+    void deleteForId(int id);
 }

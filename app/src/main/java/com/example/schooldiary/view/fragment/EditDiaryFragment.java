@@ -53,7 +53,7 @@ public class EditDiaryFragment extends Fragment {
                     return NotesFragment.newInstance(position, nameSubject, date);
                 }
                 else{
-                    return RatingFragment.newInstance(nameSubject,date);
+                    return MarksFragment.newInstance(nameSubject,date);
                 }
             }
 

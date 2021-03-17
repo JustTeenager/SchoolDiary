@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
+import com.example.schooldiary.databinding.ItemMarksBinding;
 import com.example.schooldiary.databinding.ItemSubjectBinding;
 import com.example.schooldiary.databinding.ItemTableBinding;
 import com.example.schooldiary.model.DayAndTableItems;
@@ -69,6 +70,8 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
                 return new SubjectHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.item_subject,parent,false));
             case TableHolder:
                 return new TableHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.item_table,parent,false));
+            case MarkHolder:
+                return new MarkHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.item_marks,parent,false));
         }
         return new BaseHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.item_diary_element,parent,false));
     }
@@ -79,14 +82,19 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
             case DayHolder:
                 ((DayHolder) holder).onBind(dataList.get(position));
                 break;
-            case SubjectHolder:
+            case SubjectHolder: {
                 ((SubjectHolder) holder).onBind(dataList.get(position));
-                helper.bind(((SubjectHolder) holder).getSwipeReveal(), ((SubjectItem)dataList.get(position)).getIdString());
+                helper.bind(((SubjectHolder) holder).getSwipeReveal(), ((SubjectItem) dataList.get(position)).getIdString());
+                }
                 break;
-            case TableHolder:
+            case TableHolder: {
                 ((TableHolder) holder).onBind(dataList.get(position));
-                helper.bind(((TableHolder)holder).getSwipeReveal(), ((TableItem)dataList.get(position)).getIdString() );
+                helper.bind(((TableHolder) holder).getSwipeReveal(), ((TableItem) dataList.get(position)).getIdString());
+                }
                 break;
+            case MarkHolder:
+                ((MarkHolder)holder).onBind(dataList.get(position));
+            break;
         }
     }
 
@@ -107,6 +115,8 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
     public ArrayList<D> getDataList() {
         return dataList;
     }
+
+
 
     public class BaseHolder extends RecyclerView.ViewHolder {
 
@@ -273,10 +283,37 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     }
 
+    public class MarkHolder extends BaseHolder{
+        private ItemMarksBinding binding;
+        private String mark;
+
+        public MarkHolder(ViewDataBinding binding) {
+            super(binding);
+            this.binding = (ItemMarksBinding) binding;
+            this.binding.markText.setOnLongClickListener(v -> {
+                onClickLayout();
+                return true;
+            });
+        }
+
+        @Override
+        public void onBind(D data) {
+            super.onBind(data);
+            mark = (String) data;
+            binding.setMark(mark);
+        }
+
+        @Override
+        protected void onClickLayout() {
+
+        }
+    }
+
     public enum ViewType{
         DayHolder,
         SubjectHolder,
-        TableHolder
+        TableHolder,
+        MarkHolder
     }
 
 }
