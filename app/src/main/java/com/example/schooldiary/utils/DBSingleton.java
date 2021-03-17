@@ -9,6 +9,7 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.schooldiary.model.DayItem;
+import com.example.schooldiary.utils.daos.NotesDao;
 import com.example.schooldiary.utils.daos.SubjectsDao;
 import com.example.schooldiary.utils.daos.DaysDiaryDao;
 import com.example.schooldiary.utils.daos.TableItemsDao;
@@ -55,5 +56,11 @@ public class DBSingleton {
     public SubjectsDao getSubjectsDao(){
         return databases.getSubjectsDao();
     }
+
+    public NotesDao getNotesDao(){
+        return databases.getNotesDao();
+    }
+
+
 
 }

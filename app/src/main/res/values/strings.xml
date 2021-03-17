@@ -27,4 +27,5 @@
     <string name="OK">ОК</string>
     <string name="cab_number_edit_text">Номер кабинета</string>
     <string name="save_btn_text">Сохранить</string>
+    <string name="save_notes">Сохранить</string>
 </resources>

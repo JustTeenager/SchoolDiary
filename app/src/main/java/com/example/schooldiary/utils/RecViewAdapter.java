@@ -53,6 +53,7 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     private RecViewAdapter(ViewType type,DayItem items){
+        dataList = new ArrayList<>();
         this.type=type;
         this.dayItems=items;
     }

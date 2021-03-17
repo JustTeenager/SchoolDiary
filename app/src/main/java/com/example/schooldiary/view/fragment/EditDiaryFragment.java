@@ -20,6 +20,8 @@ public class EditDiaryFragment extends Fragment {
     private static final String DATE_KEY="date_key";
 
     private FragmentEditDiaryBinding binding;
+    private String nameSubject;
+    private String date;
 
     public static EditDiaryFragment newInstance(String nameSubject,String date) {
         Bundle args = new Bundle();
@@ -34,14 +36,24 @@ public class EditDiaryFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_edit_diary,container,false);
+        nameSubject = getArguments().getString(SUBJECT_NAME_KEY);
+        date = getArguments().getString(DATE_KEY);
+        setViewPagerAdapter();
+
+        return binding.getRoot();
+    }
+
+
+    private void setViewPagerAdapter() {
         binding.viewPager.setAdapter(new FragmentStatePagerAdapter(getFragmentManager(),FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
             @NonNull
             @Override
             public Fragment getItem(int position) {
-                if (position<2)
-                return NotesFragment.newInstance(position);
+                if (position<2) {
+                    return NotesFragment.newInstance(position, nameSubject, date);
+                }
                 else{
-                    return RatingFragment.newInstance();
+                    return RatingFragment.newInstance(nameSubject,date);
                 }
             }
 
@@ -66,7 +78,6 @@ public class EditDiaryFragment extends Fragment {
             }
 
         });
-
-        return binding.getRoot();
     }
+
 }
