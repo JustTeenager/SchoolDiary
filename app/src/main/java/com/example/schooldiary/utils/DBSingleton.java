@@ -1,9 +1,12 @@
 package com.example.schooldiary.utils;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
@@ -23,24 +26,12 @@ import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 
 public class DBSingleton {
-    private static AllDatabases databases;
+    private AllDatabases databases;
     private static DBSingleton singleton;
 
     private DBSingleton(Context context){
-        databases = Room.databaseBuilder(context,AllDatabases.class,"database").fallbackToDestructiveMigration()
-                .addCallback(new RoomDatabase.Callback() {
-                    @Override
-                    public void onCreate(@NonNull SupportSQLiteDatabase db) {
-                        super.onCreate(db);
-                        Observable.range(0,14).subscribeOn(Schedulers.io()).subscribe(it ->{
-                            //DayItem item=new DayItem(new DateManager(context).getTheDaysFormat(it%7),it<7);
-                            //getDiaryDao().insertDay(item);
-                            DayItem item=new DayItem(new DateManager(context).getTheDaysFormat(it%7),it<7);
-                            getInstance(context).getDiaryDao().insertDay(item);
-                        });
-                    }
-                })
-                .build();
+        databases = Room.databaseBuilder(context,AllDatabases.class,"database").fallbackToDestructiveMigration().allowMainThreadQueries()
+               .build();
     }
 
     public static DBSingleton getInstance(Context context) {

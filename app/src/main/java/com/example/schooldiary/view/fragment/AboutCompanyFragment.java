@@ -7,10 +7,15 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+
+import com.example.schooldiary.R;
+import com.example.schooldiary.databinding.FragmentAboutBinding;
 
 public class AboutCompanyFragment  extends Fragment {
 
+    FragmentAboutBinding binding;
 
     public static AboutCompanyFragment newInstance() {
 
@@ -24,6 +29,9 @@ public class AboutCompanyFragment  extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        binding= DataBindingUtil.inflate(inflater, R.layout.fragment_about,container,false);
+        //TODO Текст для компании
+        //binding.aboutTextView.setText();
+        return binding.getRoot();
     }
 }

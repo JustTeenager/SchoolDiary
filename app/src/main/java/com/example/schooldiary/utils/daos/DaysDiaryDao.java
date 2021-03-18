@@ -20,7 +20,7 @@ public interface DaysDiaryDao {
     @Query("SELECT * FROM diary")
     Flowable<List<DayItem>> getDiary();
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertDay(DayItem item);
 
     @Update

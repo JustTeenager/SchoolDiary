@@ -125,7 +125,6 @@ public class DiaryFragment extends Fragment {
     private void setupRecyclerView(){
         diaryBinding.diaryRecView.setLayoutManager(new LinearLayoutManager(getContext()));
         diaryBinding.diaryRecView.setItemViewCacheSize(14);
-        //TODO Фловабл с миллионом элементов
         Flowable<DayAndTableItems> dayItemFlowable= dateManager.setupTwoWeeksFromToday();
         adapter=new RecViewAdapter<>(RecViewAdapter.ViewType.DayHolder);
         diaryBinding.diaryRecView.setAdapter(adapter);

@@ -9,6 +9,7 @@
     <string name="add_subject">Добавить предмет</string>
     <string name="enter_lesson">Введите название предмета</string>
     <string name="enter_cab">Введите кабинет</string>
+    <string name="enter_subject">Выберите предмет</string>
     <string name="check_subject">Поставьте тип предмета</string>
     <string name="teacher">Учитель</string>
     <string name="diary_page_title">Раписание</string>

@@ -62,8 +62,8 @@ public class DateManager {
 
         return DBSingleton.getInstance(context).getTableItemsDao().getDayTableItems().subscribeOn(Schedulers.single())
                 .flatMapIterable(it -> {
-                    ArrayList<DayAndTableItems> tempList=new ArrayList<>();
-                    Collections.copy(tempList,it);
+                    //ArrayList<DayAndTableItems> tempList=new ArrayList<>();
+                    /*Collections.copy(tempList,it);
                     for (DayAndTableItems item:tempList){
                         for (int j=0;j<tempList.size();j++){
                             if (tempList.get(j).getDayItem().getId()==item.getDayItem().getId())
@@ -71,7 +71,7 @@ public class DateManager {
                                 it.remove(item);
                             }
                         }
-                    }
+                    }*/
             for (DayAndTableItems item:it) {
                 loadTheWeeks(item);
                 }

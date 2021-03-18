@@ -56,15 +56,17 @@ public class AddTableFragment extends Fragment {
             value.setTime(dateManager.setStringFromTime(hourOfDay,minute));
         });
         binding.saveButton.setOnClickListener(v -> {
-            value.setName(binding.subjectSpinner.getSelectedItem().toString());
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 value.setTime(dateManager.setStringFromTime(binding.timePicker.getHour(),binding.timePicker.getMinute()));
             }
-            if (binding.cabEditText.getText()==null || binding.cabEditText.toString().isEmpty()){
+            if (binding.subjectSpinner.getSelectedItem()==null){
+                Toast.makeText(getActivity(),R.string.enter_subject, Toast.LENGTH_SHORT).show();
+            }
+            else if (binding.cabEditText.getText()==null || binding.cabEditText.toString().isEmpty()){
                 Toast.makeText(getActivity(),R.string.enter_cab, Toast.LENGTH_SHORT).show();
             }
             else {
+                value.setName(binding.subjectSpinner.getSelectedItem().toString());
                 value.setCab(binding.cabEditText.getText().toString());
                 Observable.create((ObservableOnSubscribe<String>) emitter -> {
                     DBSingleton.getInstance(getContext()).getTableItemsDao().insertTableItem(value);

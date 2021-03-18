@@ -150,7 +150,6 @@ public class RecViewAdapter<D> extends RecyclerView.Adapter<RecyclerView.ViewHol
             datTablesItem = (DayAndTableItems) data;
             binding.dateTitle.setText((datTablesItem).getDayItem().getDateTitle());
             binding.addTableButton.setOnClickListener(v -> {
-                //TODO Добавление нового урока в расписание
                 TableItemViewModel viewModel= ViewModelProviders.of((FragmentActivity) binding.getRoot().getContext()).get(TableItemViewModel.class);
                 TableItem tableItem=new TableItem();
                 tableItem.setWeekEven(datTablesItem.getDayItem().isEven());

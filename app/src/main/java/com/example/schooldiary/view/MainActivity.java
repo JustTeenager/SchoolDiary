@@ -1,6 +1,7 @@
 package com.example.schooldiary.view;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.Nullable;
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.schooldiary.R;
 import com.example.schooldiary.model.DayItem;
+import com.example.schooldiary.model.SubjectItem;
 import com.example.schooldiary.utils.DBSingleton;
 import com.example.schooldiary.utils.DateManager;
 import com.example.schooldiary.view.fragment.AboutCompanyFragment;
@@ -22,8 +24,11 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
+import io.reactivex.observers.DisposableMaybeObserver;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -33,9 +38,16 @@ public class MainActivity extends AppCompatActivity implements Callback{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_container);
-        Observable.just(1).subscribeOn(Schedulers.single()).subscribe(new DisposableObserver<Integer>() {
+        Observable.range(0, 14).subscribeOn(Schedulers.io()).subscribe(new Observer<Integer>() {
+            @Override
+            public void onSubscribe(@NonNull Disposable d) {
+
+            }
+
             @Override
             public void onNext(@NonNull Integer integer) {
+                    DayItem item = new DayItem(integer,new DateManager(MainActivity.this).getTheDaysFormat(integer % 7), integer < 7);
+                    DBSingleton.getInstance(MainActivity.this).getDiaryDao().insertDay(item);
             }
 
             @Override
@@ -62,7 +74,16 @@ public class MainActivity extends AppCompatActivity implements Callback{
     }
 
 
-    /*private void setupNavigationMenu() {
+    /*
+     Fragment fragment=getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                if (fragment==null)
+                    getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,BottomNavigationFragment.newInstance()).commit();
+                else getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,BottomNavigationFragment.newInstance()).commit();
+
+
+
+
+    private void setupNavigationMenu() {
         binding.bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

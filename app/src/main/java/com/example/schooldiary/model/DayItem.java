@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "diary")
 public class DayItem {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     private int id;
     private int day;
     @Ignore
@@ -16,9 +16,10 @@ public class DayItem {
     private String dbDate;
     private boolean isEven;
 
-    public DayItem(int day,boolean isEven){
+    public DayItem(int id,int day,boolean isEven){
         this.day=day;
         this.isEven=isEven;
+        this.id=id;
     }
 
     public int getDay() {
